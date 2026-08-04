@@ -1,0 +1,70 @@
+PEDRO AUGUSTO | PERSONAL TRAINER
+Pagina de links (link na bio)
+
+===============================
+O QUE TEM NESTA PASTA
+===============================
+index.html    A estrutura da pagina.
+css/styles.css   O visual (cores, layout, animacoes).
+js/script.js     Os comportamentos (carrossel, contador, menu).
+img/             As fotos e a logo.
+
+O codigo foi separado em arquivos diferentes para ficar mais facil de
+editar, mas a pagina continua exatamente igual visualmente.
+
+===============================
+COMO COLOCAR NO AR (GRATIS)
+===============================
+1. Entre em vercel.com e crie uma conta gratuita.
+2. Clique em "Add New" e depois em "Project".
+3. Arraste a PASTA INTEIRA (nao so o index.html, agora ele precisa
+   das pastas css/, js/ e img/ juntas) para a area de deploy.
+4. Em alguns segundos voce recebe um endereco parecido com
+   pedroaugusto.vercel.app
+5. Cole esse endereco na bio do Instagram.
+
+Alternativa: netlify.com funciona do mesmo jeito, arrastando o arquivo.
+
+Se quiser um dominio proprio (exemplo: pedroaugustopersonal.com.br),
+da para registrar no registro.br e apontar para a Vercel.
+
+===============================
+COMO TESTAR O BOTAO DO WHATSAPP
+===============================
+Abra a pagina publicada no celular e toque em qualquer botao verde.
+Ele abre a conversa com o Pedro ja com a mensagem escrita.
+Nao teste dentro de visualizadores ou pre-visualizacoes, porque eles
+costumam bloquear a abertura de outros aplicativos.
+
+Numero configurado: +55 61 99182-6565
+Mensagem automatica: "Oi Pedro! Vim pela sua pagina e quero comecar
+meu acompanhamento."
+
+===============================
+COMO TROCAR O NUMERO DEPOIS
+===============================
+Abra o index.html em qualquer editor de texto, use localizar e
+substituir, troque 5561991826565 pelo numero novo (sempre no formato
+55 + DDD + numero, sem espacos ou simbolos) e salve.
+
+===============================
+O QUE TEM NA PAGINA
+===============================
+1. Abertura com foto de palco, logo e chamada para o WhatsApp
+2. Autoridade: atleta competidor, pos-graduacao e numeros
+3. Especialidades: hipertrofia, emagrecimento, estetica, grupos especiais
+4. Transformacoes reais de alunos, em carrossel
+5. Alunos de verdade treinando
+6. Apresentacao do Pedro e diferenciais
+7. Como comecar, em tres passos
+8. Formatos: online e presencial
+9. Canais de contato
+10. Chamada final e botao flutuante de WhatsApp
+
+===============================
+IDEIAS PARA A PROXIMA VERSAO
+===============================
+Depoimentos de alunos com nome e foto.
+Numero do CREF no rodape.
+Cidade ou academia onde atende presencialmente.
+Perguntas frequentes quebrando as duvidas mais comuns.

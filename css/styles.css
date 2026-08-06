@@ -162,7 +162,7 @@ section{padding:56px 0}
 .vvp::before{content:"";position:absolute;left:50%;top:6%;width:min(560px,94vw);height:74%;z-index:0;
   transform:translateX(-50%);pointer-events:none;
   background:radial-gradient(50% 50% at 50% 50%,rgba(124,58,237,.24),transparent 70%)}
-.vcar{position:relative;z-index:1;display:flex;align-items:stretch;gap:14px;overflow-x:auto;
+.vcar{position:relative;z-index:1;display:flex;align-items:center;gap:14px;overflow-x:auto;
   scroll-snap-type:x mandatory;padding:20px max(18px,calc(50vw - 186px)) 30px;
   -webkit-overflow-scrolling:touch;scrollbar-width:none}
 .vcar::-webkit-scrollbar{display:none}

@@ -152,12 +152,77 @@ section{padding:56px 0}
 .swipe-hint svg{animation:nudge 1.5s ease-in-out infinite}
 .proof-note{text-align:center;color:var(--muted-2);font-size:12.5px;margin-top:14px}
 
-/* ---------- REAL CLIENTS ---------- */
-.clients{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.cli{position:relative;border-radius:18px;overflow:hidden;border:1px solid var(--line);box-shadow:0 14px 34px rgba(0,0,0,.45)}
-.cli img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block}
-.cli figcaption{position:absolute;left:0;right:0;bottom:0;padding:22px 13px 12px;font-size:11.5px;font-weight:600;
-  color:#fff;background:linear-gradient(180deg,transparent,rgba(6,5,12,.85))}
+/* ---------- DEPOIMENTOS (carrossel 3D) ----------
+   Cada card recebe do script tres variaveis conforme a rolagem:
+   --p  posicao em relacao ao centro (-1 esquerda ... 0 centro ... 1 direita)
+   --a  o mesmo valor sem sinal (0 no centro, 1 nas pontas)
+   --s  1 ou -1, so para espelhar a sombra para o lado certo         */
+.voices{padding-bottom:44px}
+.vvp{position:relative;width:100vw;left:50%;margin-left:-50vw;overflow:hidden}
+.vvp::before{content:"";position:absolute;left:50%;top:6%;width:min(560px,94vw);height:74%;z-index:0;
+  transform:translateX(-50%);pointer-events:none;
+  background:radial-gradient(50% 50% at 50% 50%,rgba(124,58,237,.24),transparent 70%)}
+.vcar{position:relative;z-index:1;display:flex;align-items:stretch;gap:14px;overflow-x:auto;
+  scroll-snap-type:x mandatory;padding:20px max(18px,calc(50vw - 186px)) 30px;
+  -webkit-overflow-scrolling:touch;scrollbar-width:none}
+.vcar::-webkit-scrollbar{display:none}
+.vcard{flex:0 0 auto;display:flex;width:min(78vw,372px);scroll-snap-align:center;perspective:820px}
+
+.vc-in{flex:1;display:flex;flex-direction:column;position:relative;border-radius:24px;overflow:hidden;
+  background:linear-gradient(180deg,var(--panel-2),var(--panel));
+  border:1px solid rgba(167,139,250,.3);
+  transform:rotateY(calc(var(--p,0)*32deg)) scale(calc(1 - var(--a,0)*.13)) translateZ(calc(var(--a,0)*-70px));
+  box-shadow:0 26px 60px rgba(0,0,0,.6),0 0 58px -20px rgba(124,58,237,calc(.85 - var(--a,0)*.85));
+  will-change:transform}
+/* borda em degrade */
+@supports ((mask-composite:exclude) or (-webkit-mask-composite:xor)){
+  .vc-in{border-color:transparent}
+  .vc-in::before{content:"";position:absolute;inset:0;border-radius:inherit;padding:1.2px;pointer-events:none;z-index:7;
+    background:linear-gradient(155deg,rgba(196,181,253,.95),rgba(124,58,237,.4) 38%,rgba(255,255,255,.05) 74%);
+    -webkit-mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);-webkit-mask-composite:xor;
+    mask:linear-gradient(#fff 0 0) content-box,linear-gradient(#fff 0 0);mask-composite:exclude}
+}
+/* sombra do lado que "afunda" na rotacao */
+.vc-in::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:6;
+  background:linear-gradient(90deg,rgba(4,3,9,.88),rgba(4,3,9,.3) 46%,transparent 74%);
+  opacity:calc(var(--a,0)*.92);transform:scaleX(var(--s,1))}
+/* brilho que escorre pelo card conforme ele gira */
+.vc-sheen{position:absolute;inset:-20% -40%;pointer-events:none;z-index:5;
+  background:linear-gradient(112deg,transparent 38%,rgba(196,181,253,.15) 47%,rgba(255,255,255,.1) 51%,transparent 62%);
+  transform:translateX(calc(var(--p,0)*36%));opacity:calc(1 - var(--a,0)*.85)}
+
+.vc-photo{position:relative;flex:0 0 auto;overflow:hidden}
+.vc-photo img{width:100%;height:266px;object-fit:cover;object-position:50% 20%;display:block;
+  transform:scale(1.09) translateX(calc(var(--p,0)*-16px))}
+.vc-photo::after{content:"";position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(180deg,rgba(10,9,16,.5) 0%,transparent 30%,rgba(14,12,22,.6) 66%,var(--panel-2) 100%)}
+.vc-badge{position:absolute;top:14px;right:14px;z-index:2;display:inline-flex;align-items:center;gap:6px;
+  font-size:10px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#fff;
+  background:rgba(10,9,16,.55);border:1px solid rgba(167,139,250,.5);backdrop-filter:blur(4px);padding:6px 11px;border-radius:999px}
+.vc-badge svg{color:var(--glow)}
+.vc-id{position:absolute;left:20px;right:20px;bottom:14px;z-index:2}
+.vc-id .stars{display:flex;gap:3px;color:#FFC65C;filter:drop-shadow(0 2px 6px rgba(0,0,0,.65))}
+.vc-id b{display:block;margin-top:8px;font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;
+  font-size:26px;letter-spacing:.02em;line-height:1;text-shadow:0 3px 14px rgba(0,0,0,.75)}
+
+.vc-text{position:relative;flex:1 1 auto;padding:20px 20px 4px}
+.vc-text .qm{position:absolute;top:-22px;right:16px;z-index:0;pointer-events:none;
+  font-family:Georgia,'Times New Roman',serif;font-size:110px;line-height:1;
+  transform:translateX(calc(var(--p,0)*20px));
+  background:linear-gradient(180deg,rgba(167,139,250,.45),rgba(124,58,237,0));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.vc-text p{position:relative;z-index:1;font-size:14px;line-height:1.62;color:#B4AEC7}
+.vc-text p+p{margin-top:11px}
+.vc-text .q-lead{font-size:15.5px;line-height:1.46;font-weight:600;color:#fff}
+.vc-src{display:flex;align-items:center;gap:8px;margin:16px 20px 18px;padding-top:14px;
+  border-top:1px solid var(--line);font-size:11.5px;color:var(--muted-2);line-height:1.3}
+.vc-src svg{flex:0 0 auto;color:var(--wa)}
+
+.vdots{display:flex;gap:7px;justify-content:center;margin-top:6px}
+.vdots button{width:7px;height:7px;border-radius:50%;border:none;padding:0;cursor:pointer;
+  background:rgba(255,255,255,.22);transition:.28s}
+.vdots button.on{width:24px;border-radius:4px;background:linear-gradient(90deg,var(--glow),var(--violet))}
+#vhint{margin-top:12px}
 
 /* ---------- ABOUT ---------- */
 .about-card{position:relative;border-radius:22px;overflow:hidden;border:1px solid rgba(167,139,250,.22);
@@ -264,4 +329,6 @@ footer .cred{color:var(--muted-2);font-size:11px;margin-top:18px}
   .reveal{opacity:1;transform:none}
   .hero-img{animation:none}.btn-wa::after{display:none}
   .rot-word{opacity:1}
+  .vc-in{transform:none}.vc-photo img{transform:scale(1.09)}
+  .vc-in::after,.vc-sheen{display:none}
 }

@@ -54,7 +54,7 @@ O QUE TEM NA PAGINA
 2. Autoridade: atleta competidor, pos-graduacao e numeros
 3. Especialidades: hipertrofia, emagrecimento, estetica, grupos especiais
 4. Transformacoes reais de alunos, em carrossel
-5. Alunos de verdade treinando
+5. Depoimentos dos alunos, em carrossel com efeito 3D
 6. Apresentacao do Pedro e diferenciais
 7. Como comecar, em tres passos
 8. Formatos: online e presencial
@@ -62,9 +62,40 @@ O QUE TEM NA PAGINA
 10. Chamada final e botao flutuante de WhatsApp
 
 ===============================
+COMO ADICIONAR MAIS DEPOIMENTOS
+===============================
+A secao de depoimentos e um carrossel: os cards giram em 3D conforme
+voce arrasta para o lado, o do meio fica reto e os das pontas ficam
+inclinados e mais escuros. Hoje so tem o depoimento do Marcus, entao
+o card aparece sozinho e centralizado. Assim que entrar o segundo, as
+bolinhas de navegacao e a dica "deslize" aparecem automaticamente.
+
+Para colocar o depoimento de outro aluno:
+
+1. Salve a foto da pessoa na pasta img/ com um nome simples, por
+   exemplo aluno-joao.jpg. Foto em pe (mais alta que larga) fica
+   melhor, porque o card corta a imagem na horizontal.
+2. Abra o index.html e procure por: class="vcard"
+   Tem um comentario ali explicando o passo a passo.
+3. Copie o bloco inteiro, do <article class="vcard"> ate o
+   </article> correspondente, e cole logo abaixo dele.
+4. No bloco novo, troque somente:
+   - o src="img/cliente-2.jpg" pela foto nova
+   - o alt="..." descrevendo a foto nova
+   - o nome dentro do <b>Marcus</b>
+   - os paragrafos do texto (o primeiro, com class="q-lead", e o
+     que aparece maior e em branco; use ele para a frase de efeito)
+5. Salve e suba a pasta de novo.
+
+Nao mexa nas classes (vcard, vc-in, vc-photo, vc-id, q-lead...), sao
+elas que dao o visual e o efeito 3D do card.
+
+Se o aluno nao quiser mandar foto, me avise que eu monto uma versao
+do card sem foto, porque hoje ela e a capa do depoimento.
+
+===============================
 IDEIAS PARA A PROXIMA VERSAO
 ===============================
-Depoimentos de alunos com nome e foto.
 Numero do CREF no rodape.
 Cidade ou academia onde atende presencialmente.
 Perguntas frequentes quebrando as duvidas mais comuns.

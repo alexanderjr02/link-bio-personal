@@ -54,7 +54,7 @@ O QUE TEM NA PAGINA
 2. Autoridade: atleta competidor, pos-graduacao e numeros
 3. Especialidades: hipertrofia, emagrecimento, estetica, grupos especiais
 4. Transformacoes reais de alunos, em carrossel
-5. Depoimentos dos alunos, em carrossel com efeito 3D
+5. Depoimentos dos alunos, em carrossel de cards empilhados
 6. Apresentacao do Pedro e diferenciais
 7. Como comecar, em tres passos
 8. Formatos: online e presencial
@@ -64,11 +64,19 @@ O QUE TEM NA PAGINA
 ===============================
 COMO ADICIONAR MAIS DEPOIMENTOS
 ===============================
-A secao de depoimentos e um carrossel: os cards giram em 3D conforme
-voce arrasta para o lado, o do meio fica reto e os das pontas ficam
-inclinados e mais escuros. Hoje estao no ar os depoimentos da Jaque
-e do Marcus, nessa ordem. As bolinhas de navegacao e a dica "deslize"
+A secao de depoimentos funciona como um maco de cartas: os cards ficam
+empilhados um sobre o outro, e os de tras aparecem recuados para a
+direita. Da para arrastar o card da frente para o lado com o dedo,
+usar as setinhas ou tocar nas barrinhas embaixo. O card que ja passou
+sai pela esquerda e a altura da pilha se ajusta sozinha ao tamanho de
+cada depoimento.
+
+Hoje estao no ar tres depoimentos, nesta ordem: Jaque, Marcus e o
+terceiro aluno (o do acidente de moto). As setinhas e as barrinhas
 aparecem sozinhas sempre que existir mais de um depoimento.
+
+FALTA: o nome do terceiro aluno. Enquanto o Pedro nao passa, o card
+mostra so "Aluno". Procure por "TROCAR" no index.html para achar.
 
 Para trocar a ordem, basta trocar os blocos <article class="vcard">
 de lugar dentro do index.html. O primeiro e o que aparece na abertura
@@ -92,7 +100,7 @@ Para colocar o depoimento de outro aluno:
 5. Salve e suba a pasta de novo.
 
 Nao mexa nas classes (vcard, vc-in, vc-photo, vc-id, q-lead...), sao
-elas que dao o visual e o efeito 3D do card.
+elas que dao o visual do card e fazem a pilha funcionar.
 
 Se o aluno nao quiser mandar foto, me avise que eu monto uma versao
 do card sem foto, porque hoje ela e a capa do depoimento.

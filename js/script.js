@@ -67,42 +67,109 @@ document.querySelectorAll("[data-count]").forEach(el=>cUp.observe(el));
     setTimeout(()=>{tcar.scrollBy({left:64,behavior:"smooth"});setTimeout(()=>tcar.scrollBy({left:-64,behavior:"smooth"}),480);},700);}});},{threshold:.5});nud.observe(tcar);}
 })();
 
-/* carrossel 3D de depoimentos
-   Cada card vira um pouco no eixo Y conforme se afasta do centro da tela.
-   O script so calcula a posicao e entrega para o CSS pelas variaveis --p, --a e --s. */
+/* baralho de depoimentos
+   Os cards ficam empilhados. O da frente ocupa o lugar 0, os de tras vao
+   recuando para a direita. Quem ja passou sai pela esquerda. Da para
+   arrastar o card da frente, clicar nas setas ou clicar nas barrinhas. */
 (function(){
-  const car=document.getElementById("vcar"), dots=document.getElementById("vdots"), hint=document.getElementById("vhint");
-  if(!car) return;
-  const cards=[...car.children];
+  const stage=document.getElementById("vdStage");
+  if(!stage) return;
+  const cards=[...stage.children],
+        ctrl=document.getElementById("vdCtrl"),
+        rail=document.getElementById("vdRail"),
+        prev=document.getElementById("vdPrev"),
+        next=document.getElementById("vdNext");
 
-  /* com um depoimento so nao existe o que deslizar: some com as bolinhas e a dica */
-  if(cards.length<2){ if(dots) dots.remove(); if(hint) hint.remove(); }
-  else if(dots){
-    cards.forEach((_,i)=>{const b=document.createElement("button");b.setAttribute("aria-label","Ver depoimento "+(i+1));
-      b.addEventListener("click",()=>cards[i].scrollIntoView({behavior:"smooth",inline:"center",block:"nearest"}));dots.appendChild(b);});
+  /* com um depoimento so nao existe o que navegar */
+  if(cards.length<2){ if(ctrl) ctrl.remove(); }
+  else if(rail){
+    cards.forEach((_,i)=>{const b=document.createElement("button");b.type="button";
+      b.setAttribute("aria-label","Ver depoimento "+(i+1));
+      b.addEventListener("click",()=>show(i));rail.appendChild(b);});
   }
-  const dotEls=dots?[...dots.children]:[];
+  const bars=rail?[...rail.children]:[];
 
-  let ticking=0;
-  const paint=()=>{
-    ticking=0;
-    const box=car.getBoundingClientRect(), cx=box.left+box.width/2, reach=box.width*.62;
-    let best=0, bd=1e9;
-    cards.forEach((card,i)=>{
-      const r=card.getBoundingClientRect(), d=r.left+r.width/2-cx;
-      if(Math.abs(d)<bd){bd=Math.abs(d);best=i;}
-      if(reduce) return;
-      const p=Math.max(-1,Math.min(1,d/reach)), a=Math.abs(p), inner=card.firstElementChild;
-      inner.style.setProperty("--p",p.toFixed(3));
-      inner.style.setProperty("--a",a.toFixed(3));
-      inner.style.setProperty("--s",p<0?"1":"-1");
-    });
-    dotEls.forEach((d,i)=>d.classList.toggle("on",i===best));
+  /* lugar de cada card no maco: quanto mais atras, mais recuado e menor */
+  const SLOT=[{x:0,y:0,s:1,o:1},{x:20,y:10,s:.955,o:.5},{x:36,y:19,s:.915,o:.26}];
+  let active=0, drag=null;
+
+  const place=(card,x,y,s,o,z)=>{
+    card.style.transform="translate("+x+"px,"+y+"px) scale("+s+")";
+    card.style.opacity=o; card.style.zIndex=z;
   };
-  const queue=()=>{ if(!ticking) ticking=requestAnimationFrame(paint); };
-  car.addEventListener("scroll",queue,{passive:true});
-  window.addEventListener("resize",queue,{passive:true});
-  paint();
+
+  const layout=()=>{
+    cards.forEach((card,i)=>{
+      const d=i-active, front=d===0;
+      if(d<0) place(card,-window.innerWidth,0,.96,0,1);        /* ja passou: saiu pela esquerda */
+      else{ const sl=SLOT[Math.min(d,SLOT.length-1)];
+            place(card,sl.x,sl.y,sl.s,d>=SLOT.length?0:sl.o,30-d); }
+      card.classList.toggle("is-front",front);
+      card.style.pointerEvents=front?"auto":"none";
+      card.setAttribute("aria-hidden",front?"false":"true");
+    });
+    bars.forEach((b,i)=>b.classList.toggle("on",i===active));
+    if(prev) prev.disabled=active===0;
+    if(next) next.disabled=active===cards.length-1;
+    measure();
+  };
+
+  /* O palco acompanha a altura do card da frente, que muda conforme o tamanho
+     do depoimento. Os cards de tras recebem essa mesma altura para nao vazarem
+     por baixo da pilha quando o texto deles for mais longo. */
+  const measure=()=>{
+    const front=cards[active], inner=front.firstElementChild, keep=inner.style.height;
+    inner.style.height="auto";
+    const h=front.offsetHeight;
+    inner.style.height=keep;                 /* volta ao valor antigo para a altura poder animar */
+    void front.offsetHeight;
+    stage.style.height=h+"px";
+    cards.forEach(c=>{c.firstElementChild.style.height=h+"px";});
+  };
+  function show(i){ active=Math.max(0,Math.min(cards.length-1,i)); layout(); }
+
+  if(prev) prev.addEventListener("click",()=>show(active-1));
+  if(next) next.addEventListener("click",()=>show(active+1));
+
+  /* arrastar o card da frente */
+  if(!reduce && cards.length>1){
+    stage.addEventListener("pointerdown",(e)=>{
+      if(e.button||!cards[active].contains(e.target)) return;
+      drag={x:e.clientX,y:e.clientY,dx:0,locked:null,id:e.pointerId};
+    });
+    stage.addEventListener("pointermove",(e)=>{
+      if(!drag||e.pointerId!==drag.id) return;
+      const dx=e.clientX-drag.x, dy=e.clientY-drag.y;
+      if(drag.locked===null){
+        if(Math.abs(dx)<6&&Math.abs(dy)<6) return;
+        drag.locked=Math.abs(dx)>Math.abs(dy);            /* se desceu, a pagina rola normal */
+        if(drag.locked){ stage.classList.add("is-dragging");
+          try{ stage.setPointerCapture(e.pointerId); }catch(err){} }
+      }
+      if(!drag.locked) return;
+      drag.dx=dx;
+      const t=Math.min(Math.abs(dx)/140,1);
+      place(cards[active],dx,Math.abs(dx)*.04,1,1-t*.25,30);
+      cards[active].style.transform+=" rotate("+(dx*.02)+"deg)";
+      const nxt=cards[active+1];                          /* o de tras vem vindo junto */
+      if(nxt) place(nxt,SLOT[1].x*(1-t),SLOT[1].y*(1-t),SLOT[1].s+(1-SLOT[1].s)*t,SLOT[1].o+(1-SLOT[1].o)*t,29);
+    });
+    const drop=(e)=>{
+      if(!drag||(e&&e.pointerId!==drag.id)) return;
+      const dx=drag.dx, locked=drag.locked; drag=null;
+      stage.classList.remove("is-dragging");
+      if(!locked) return;
+      if(dx<-70) show(active+1); else if(dx>70) show(active-1); else layout();
+    };
+    stage.addEventListener("pointerup",drop);
+    stage.addEventListener("pointercancel",drop);
+  }
+
+  /* a altura muda quando a foto carrega ou quando a tela vira */
+  cards.forEach(c=>{const im=c.querySelector("img"); if(im&&!im.complete) im.addEventListener("load",measure);});
+  window.addEventListener("resize",layout,{passive:true});
+  if(document.fonts&&document.fonts.ready) document.fonts.ready.then(measure);
+  layout();
 })();
 
 /* FAB */

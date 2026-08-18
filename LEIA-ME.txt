@@ -8,25 +8,31 @@ index.html    A estrutura da pagina.
 css/styles.css   O visual (cores, layout, animacoes).
 js/script.js     Os comportamentos (carrossel, contador, menu).
 img/             As fotos e a logo.
+_headers         Configuracao de cache e seguranca do Cloudflare.
 
 O codigo foi separado em arquivos diferentes para ficar mais facil de
 editar, mas a pagina continua exatamente igual visualmente.
 
 ===============================
-COMO COLOCAR NO AR (GRATIS)
+ONDE O SITE ESTA NO AR
 ===============================
-1. Entre em vercel.com e crie uma conta gratuita.
-2. Clique em "Add New" e depois em "Project".
-3. Arraste a PASTA INTEIRA (nao so o index.html, agora ele precisa
-   das pastas css/, js/ e img/ juntas) para a area de deploy.
-4. Em alguns segundos voce recebe um endereco parecido com
-   pedroaugusto.vercel.app
-5. Cole esse endereco na bio do Instagram.
+Endereco: https://pedroaugustopersonal.com.br
 
-Alternativa: netlify.com funciona do mesmo jeito, arrastando o arquivo.
+Hospedagem: Cloudflare Pages (plano gratuito).
+Dominio: registrado no registro.br, com o DNS apontando para o
+Cloudflare. O registro.br continua sendo onde o dominio e pago e
+renovado todo ano; o Cloudflare so cuida do DNS e da hospedagem.
 
-Se quiser um dominio proprio (exemplo: pedroaugustopersonal.com.br),
-da para registrar no registro.br e apontar para a Vercel.
+COMO ATUALIZAR O SITE
+O Cloudflare esta ligado ao repositorio do GitHub. Toda alteracao
+enviada para a branch main publica sozinha em cerca de 30 segundos.
+Nao existe passo manual: nao precisa arrastar pasta nem apertar botao
+de publicar. Para ver o andamento, entre no painel do Cloudflare, em
+Workers & Pages, e abra a aba Deployments do projeto.
+
+Se algo der errado numa atualizacao, o Cloudflare guarda todas as
+versoes anteriores. Basta abrir a versao antiga em Deployments e
+clicar em Rollback para voltar o site ao que era antes.
 
 ===============================
 COMO TESTAR O BOTAO DO WHATSAPP

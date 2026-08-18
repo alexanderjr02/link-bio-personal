@@ -1,130 +1,363 @@
 PEDRO AUGUSTO | PERSONAL TRAINER
-Pagina de links (link na bio)
+Pagina de links com funil de diagnostico
+
+===============================
+LEIA ISTO ANTES DE PUBLICAR
+===============================
+Tres coisas estao com conteudo DE EXEMPLO. Precisam ser confirmadas com
+o Pedro, ou apagadas, antes de o site ir pro ar. Nenhuma delas quebra a
+pagina se for removida.
+
+1) PRECOS DOS PLANOS
+   Onde: index.html, secao PLANOS, dentro de <div class="price">.
+   Hoje esta R$ 149 (Essencial) e R$ 249 (Premium). Sao numeros de
+   rascunho, nao os precos reais. Troque pelos valores do Pedro.
+   Para nao mostrar preco, troque o numero por "Sob consulta" e apague
+   a linha <em>/mes</em> ao lado.
+
+2) DADOS DAS TRANSFORMACOES
+   Onde: index.html, secao TRANSFORMACOES, atributo data-meta.
+   Hoje esta "8 meses|Online|4x por semana" e parecidos, tambem de
+   exemplo. Troque pelos dados reais de cada aluno. Se voce nao souber
+   os dados de um card, APAGUE o data-meta inteiro daquele card: ele
+   volta a aparecer sem tarja.
+
+3) A GARANTIA DA PRIMEIRA SEMANA
+   Onde: index.html, secao PLANOS, bloco <div class="guard">.
+   E uma promessa em nome do Pedro. Se ele nao topar, apague o bloco.
+
+E uma quarta, que nao e de codigo: o rodape oferece um guia dos 5 erros
+entregue por WhatsApp. O guia precisa existir de verdade. Se ainda nao
+existir, apague o bloco <div class="fallback">.
 
 ===============================
 O QUE TEM NESTA PASTA
 ===============================
 index.html    A estrutura da pagina.
 css/styles.css   O visual (cores, layout, animacoes).
-js/script.js     Os comportamentos (carrossel, contador, menu).
+js/script.js     Os comportamentos (diagnostico, carrosseis, FAQ).
 img/             As fotos e a logo.
-_headers         Configuracao de cache e seguranca do Cloudflare.
-
-O codigo foi separado em arquivos diferentes para ficar mais facil de
-editar, mas a pagina continua exatamente igual visualmente.
+_headers         Cache e seguranca do Cloudflare.
 
 ===============================
 ONDE O SITE ESTA NO AR
 ===============================
 Endereco provisorio: https://pedro-augusto.pages.dev
 Endereco final:      https://pedroaugustopersonal.com.br
-                     (falta apontar o DNS, veja a secao seguinte)
+                     (falta apontar o DNS, veja abaixo)
 
 Hospedagem: Cloudflare Pages, projeto "pedro-augusto", plano gratuito.
-Dominio: registrado no registro.br. O registro.br continua sendo onde
-o dominio e pago e renovado todo ano; o Cloudflare so cuida do DNS e
-da hospedagem. Um dominio .com.br nao pode ser transferido para o
-Cloudflare como registrador.
+Dominio: registrado no registro.br, que continua sendo onde ele e pago
+e renovado todo ano. O Cloudflare so cuida do DNS e da hospedagem. Um
+.com.br nao pode ser transferido para o Cloudflare como registrador.
 
 COMO ATUALIZAR O SITE
-A publicacao e por envio direto da pasta, igual aos outros sites da
-conta. Dentro da pasta do projeto, rode:
+Dentro da pasta do projeto:
 
   npx wrangler pages deploy . --project-name=pedro-augusto --branch=main
 
-Em poucos segundos a alteracao esta no ar. Enviar para o GitHub apenas
-guarda o codigo, nao publica nada sozinho.
+Em poucos segundos esta no ar. Enviar para o GitHub apenas guarda o
+codigo, nao publica nada sozinho.
 
-Se algo der errado numa atualizacao, o Cloudflare guarda todas as
-versoes anteriores. Entre no painel, em Workers & Pages, abra o projeto
-na aba Deployments, escolha a versao antiga e clique em Rollback.
+Se algo der errado, o Cloudflare guarda todas as versoes anteriores.
+No painel, em Workers & Pages, abra o projeto na aba Deployments,
+escolha a versao antiga e clique em Rollback.
 
-O QUE AINDA FALTA PARA O DOMINIO PROPRIO
-1. No painel do Cloudflare, usar "Add a site" e cadastrar
-   pedroaugustopersonal.com.br no plano Free. Ele devolve dois
-   servidores de nome terminados em ns.cloudflare.com.
+O QUE FALTA PARA O DOMINIO PROPRIO
+1. No Cloudflare, "Add a site" e cadastrar pedroaugustopersonal.com.br
+   no plano Free. Ele devolve dois servidores ns.cloudflare.com.
 2. No registro.br, trocar os servidores DNS atuais (a.auto.dns.br e
    b.auto.dns.br) pelos dois do Cloudflare.
 3. No projeto pedro-augusto, aba Custom domains, adicionar o dominio.
-Depois disso o certificado de seguranca sai sozinho.
+O certificado de seguranca sai sozinho depois disso.
 
 ===============================
-COMO TESTAR O BOTAO DO WHATSAPP
+CUIDADO AO EDITAR OS ARQUIVOS
 ===============================
-Abra a pagina publicada no celular e toque em qualquer botao verde.
-Ele abre a conversa com o Pedro ja com a mensagem escrita.
-Nao teste dentro de visualizadores ou pre-visualizacoes, porque eles
+Use um editor de texto de verdade (VS Code, Notepad++) e salve sempre
+em UTF-8. O Bloco de Notas antigo e alguns comandos do PowerShell leem
+o arquivo na codificacao errada e transformam "Voce" em "VocÃª" na
+pagina inteira. Se isso acontecer, nao tente consertar na mao: pegue a
+versao anterior no Rollback do Cloudflare ou no GitHub.
+
+===============================
+COMO TROCAR O NUMERO DO WHATSAPP
+===============================
+O numero aparece em DOIS arquivos e tem que ser trocado nos dois:
+
+  index.html    varias vezes, use localizar e substituir
+  js/script.js  na primeira linha de codigo:
+                const ZAP = "5561991826565"
+
+Se trocar so no index.html, o botao do resultado do diagnostico e o da
+chamada final continuam indo pro numero antigo.
+
+Formato: 55 + DDD + numero, sem espacos ou simbolos.
+Numero atual: +55 61 99182-6565
+
+Para testar, abra a pagina publicada no celular e toque num botao
+verde. Nao teste dentro de visualizadores ou pre-visualizacoes, porque
 costumam bloquear a abertura de outros aplicativos.
-
-Numero configurado: +55 61 99182-6565
-Mensagem automatica: "Oi Pedro! Vim pela sua pagina e quero comecar
-meu acompanhamento."
-
-===============================
-COMO TROCAR O NUMERO DEPOIS
-===============================
-Abra o index.html em qualquer editor de texto, use localizar e
-substituir, troque 5561991826565 pelo numero novo (sempre no formato
-55 + DDD + numero, sem espacos ou simbolos) e salve.
 
 ===============================
 O QUE TEM NA PAGINA
 ===============================
-1. Abertura com foto de palco, logo e chamada para o WhatsApp
-2. Autoridade: atleta competidor, pos-graduacao e numeros
-3. Especialidades: hipertrofia, emagrecimento, estetica, grupos especiais
-4. Transformacoes reais de alunos, em carrossel
-5. Depoimentos dos alunos, em carrossel de cards empilhados
-6. Apresentacao do Pedro e diferenciais
-7. Como comecar, em tres passos
-8. Formatos: online e presencial
-9. Canais de contato
-10. Chamada final e botao flutuante de WhatsApp
+1. Abertura: "Chega de recomecar toda segunda"
+2. Autoridade: atleta de palco, formacao e numeros
+3. A PRIMEIRA PERGUNTA DO DIAGNOSTICO, ali na pagina
+4. Transformacoes reais, em carrossel, com tarja de contexto
+5. Depoimentos, em carrossel de cards empilhados
+6. Planos: Essencial, Premium e Presencial, com garantia
+7. Regras do jogo: pra quem o trabalho nao serve
+8. Duvidas frequentes
+9. Chamada final, guia gratuito e botao flutuante
+
+===============================
+COMO O DIAGNOSTICO FUNCIONA
+===============================
+Sao quatro perguntas, uma por tela, e ele foi montado com tres ideias
+que valem mais que o codigo em si.
+
+IDEIA 1: A PRIMEIRA PERGUNTA NAO FICA ESCONDIDA
+Ela acontece na propria pagina, com as tres silhuetas a vista. Nao
+existe botao "comecar o quiz". Quem toca numa silhueta ja respondeu, e
+o diagnostico abre em tela cheia direto na pergunta 2, levando essa
+resposta junto. Isso muda muito quanta gente comeca: pedir um clique
+para "iniciar" e um degrau a mais que a maioria nao sobe.
+
+IDEIA 2: O OBJETIVO NAO E PERGUNTADO, E DEDUZIDO
+As perguntas 1 e 2 sao "qual corpo parece com o seu hoje" e "qual voce
+quer ter". A distancia entre as duas respostas ja diz tudo:
+
+  acima do peso -> em forma      = emagrecimento
+  magro -> musculoso             = hipertrofia
+  medio -> em forma              = definicao
+  qualquer um -> bem musculoso   = palco
+
+A pessoa desenha o proprio antes e depois com dois toques, sem
+precisar ler uma linha de texto sobre dor. E o elemento mais forte da
+pagina inteira.
+
+IDEIA 3: O PRAZO MUDA COM O TAMANHO DO SALTO
+Quem esta acima do peso e quer ficar bem musculoso recebe "1 a 2 anos".
+Quem esta magro e quer ficar em forma recebe "4 a 6 meses". O prazo sai
+de uma conta, nao de um numero fixo, e isso e o que separa a pagina de
+uma promessa de 90 dias.
+
+O QUE ACONTECE DEPOIS QUE A PESSOA RESPONDE
+  a) O resultado mostra as duas silhuetas lado a lado com o salto e o
+     prazo entre elas, um veredito curto, uma linha do tempo de tres
+     marcos e uma frase sobre o custo de continuar como esta.
+  b) O TITULO DO TOPO DA PAGINA MUDA conforme o perfil.
+  c) O PLANO EM DESTAQUE MUDA. O selo violeta "Mais escolhido" sai e
+     entra um selo verde "Pra voce" no plano que faz sentido, com uma
+     frase explicando o motivo.
+  d) O guia gratuito do rodape SOME. Quem acabou de responder esta
+     quente e nao precisa de uma saida mais facil.
+  e) O botao do topo deixa de apontar para a pergunta e passa a levar
+     direto ao plano recomendado.
+
+SE A PESSOA VOLTAR DIAS DEPOIS
+Aparece uma barra no topo dizendo onde ela parou, com atalho pro plano.
+A pagina ja abre personalizada. O guia gratuito volta a aparecer.
+
+A REGRA DE RECOMENDACAO DE PLANO (js/script.js, funcao "recomendar")
+  respondeu presencial            -> Presencial
+  online + "treino sem plano"     -> Essencial (ja treina firme, so
+                                     falta o plano)
+  qualquer outra resposta online  -> Premium (sozinho nao funcionou)
+
+===============================
+A REGRA DE VOZ (IMPORTANTE)
+===============================
+A pagina fala na voz do Pedro: "eu nao ensino o que eu nao faco".
+O diagnostico NAO. Ali quem fala e o visitante, respondendo sobre si.
+
+Por isso as opcoes nunca podem dizer "comigo": a pessoa estaria dizendo
+que quer ficar do lado dela mesma. O Pedro tem que aparecer pelo nome.
+
+  ERRADO:  "Presencial, comigo do lado"
+  CERTO:   "Presencial, com o Pedro do meu lado"
+
+Isso vale para qualquer opcao nova que voce acrescentar. As perguntas
+podem ser neutras ("E como voce quer treinar?"), mas as respostas sao
+sempre a pessoa falando.
+
+===============================
+COMO MEXER NO DIAGNOSTICO
+===============================
+A PERGUNTA 1 esta no index.html, na secao "PRIMEIRA PERGUNTA".
+AS PERGUNTAS 2, 3 e 4 estao no bloco class="qzfull", no fim do arquivo.
+OS TEXTOS DO RESULTADO estao no js/script.js, nos blocos PERFIS e
+VEREDITO.
+
+Cada botao de resposta tem dois atributos:
+  data-val    a chave interna, e o que escolhe os textos do resultado
+  data-label  o texto que entra na mensagem do WhatsApp
+
+A regra que nao pode ser quebrada: as tres opcoes da pergunta 1 na
+pagina tem que ter os MESMOS data-val das tres opcoes da pergunta 1
+dentro da tela cheia (magro, medio, acima). Sao os mesmos valores em
+dois lugares.
+
+No js/script.js, cada perfil do bloco PERFIS tem quatro partes:
+  chip    o nome curto, usado na barra de retomada
+  hero    o titulo que passa a aparecer no topo da pagina
+  custo   a frase de tensao que aparece antes do botao verde
+  linha   os tres marcos, no formato ["quando", "o que acontece"].
+          O terceiro tem "quando" igual a null de proposito: ele usa o
+          prazo calculado pelo salto.
+
+Para so trocar palavras, mexa apenas no js/script.js.
+Para trocar o que a pessoa LE nos botoes, mexa so no index.html.
+
+NAO TROQUE A LINHA DO TEMPO POR PROMESSA
+Os textos falam do que COSTUMA acontecer, e existe um aviso embaixo
+dizendo isso. Trocar por "voce vai perder 10kg em 3 meses" e propaganda
+enganosa e derruba a credibilidade que o resto da pagina constroi.
+
+NADA E SALVO FORA DO CELULAR DA PESSOA
+As respostas ficam so no navegador dela, e por isso a pagina nao precisa
+de aviso de cookies. Em aba anonima o armazenamento e recusado e a
+pagina continua funcionando, so sem a barra de retomada.
+
+===============================
+COMO MEXER NAS SILHUETAS
+===============================
+Elas sao desenhadas em SVG pelo proprio script, entao nao dependem de
+foto nenhuma e ficam nitidas em qualquer tela. Todas saem do mesmo
+molde, mudando quatro medidas na tabela CORPOS, no js/script.js:
+
+  s    meia-largura do ombro
+  w    meia-largura da cintura
+  b    espessura do braco
+  bel  quanto a barriga avanca (0 = reta)
+
+Para deixar um corpo mais largo ou mais seco, mexa so nos numeros. Nao
+precisa encostar no desenho. Depois de mexer, abra a pagina e confira:
+as tres da esquerda (magro, medio, acima) precisam ficar visivelmente
+diferentes entre si, e as tres da direita tambem.
+
+===============================
+COMO ADICIONAR MAIS DUVIDAS
+===============================
+No index.html, procure por: class="faq-i"
+Copie um bloco inteiro, cole logo abaixo e troque o texto do <button>
+(a pergunta) e o texto do <p> (a resposta).
+
+Nao precisa numerar nada nem mexer no script. Abrir uma fecha as
+outras, de proposito.
+
+Mantenha as respostas curtas, de uma a tres frases. Em link na bio,
+quem esta rolando com o polegar nao le paragrafo.
+
+===============================
+COMO MEXER NA TARJA DAS TRANSFORMACOES
+===============================
+Cada card do carrossel pode ter uma tarja com o contexto do resultado:
+
+  <article class="tcard" data-meta="8 meses|Online|4x por semana">
+
+Tres informacoes separadas por barra vertical, nesta ordem: tempo,
+formato, frequencia. A primeira aparece destacada em roxo.
+
+Card sem o atributo aparece sem tarja. Foto que voce nao souber os
+dados, e so nao colocar.
+
+===============================
+COMO MEXER NOS PLANOS
+===============================
+Sao tres cartoes, no index.html, secao PLANOS.
+
+O do meio (Premium) tem a classe "is-top" e o selo "Mais escolhido".
+Esse e o padrao, que aparece para quem NAO respondeu o diagnostico. Se
+o Pedro quiser outro padrao, mova a classe is-top e o
+<span class="plan-tag"> para o cartao dele.
+
+Quem responde o diagnostico recebe um selo verde "Pra voce" no plano
+recomendado, e o padrao e ignorado. Para mudar essa logica, e a funcao
+"recomendar" no js/script.js.
+
+Os itens com class="off" sao os que NAO estao inclusos, e aparecem
+apagados com um x. Dizer o que nao entra evita a conversa chata la na
+frente e passa mais confianca.
+
+===============================
+DE ONDE VEIO CADA CONTATO
+===============================
+Cada botao verde manda uma mensagem diferente, de proposito. Lendo a
+primeira mensagem, o Pedro sabe de que parte da pagina veio o contato,
+sem instalar rastreador nenhum:
+
+  "Vim pela sua pagina..."        veio da abertura
+  "Fiz o diagnostico no site."    veio do diagnostico, com as 4 respostas
+  "Quero o plano Essencial."      veio dos planos
+  "Quero o plano Premium."        veio dos planos
+  "Quero o presencial..."         veio dos planos
+  "Cheguei ate o final..."        veio da chamada final
+  "Quero o guia dos 5 erros."     veio do guia gratuito
+  "queria tirar uma duvida"       veio do botao flutuante
+
+Se chegar muita mensagem de abertura e quase nenhuma "Fiz o
+diagnostico", e sinal de que a pergunta da pagina nao esta convencendo.
+
+SE UM DIA QUISER NUMEROS
+A pagina nao instala rastreador nenhum. O basico e gratuito:
+Painel do Cloudflare -> projeto pedro-augusto -> aba Analytics.
+
+O js/script.js tem, perto do fim, um bloco que avisa qualquer
+ferramenta de analytics instalada quando alguem clica num botao de
+WhatsApp, informando de qual secao veio. Funciona com Cloudflare Zaraz,
+Google Analytics e Meta Pixel. Sem ferramenta instalada, nao faz nada.
+
+Atencao: instalar o Meta Pixel para rodar anuncio faz a pagina passar a
+precisar de aviso de cookies, por causa da LGPD.
 
 ===============================
 COMO ADICIONAR MAIS DEPOIMENTOS
 ===============================
-A secao de depoimentos funciona como um maco de cartas: os cards ficam
-empilhados um sobre o outro, e os de tras aparecem recuados para a
-direita. Da para arrastar o card da frente para o lado com o dedo,
-usar as setinhas ou tocar nas barrinhas embaixo. O card que ja passou
-sai pela esquerda e a altura da pilha se ajusta sozinha ao tamanho de
-cada depoimento.
+A secao funciona como um maco de cartas. Da para arrastar o card da
+frente com o dedo, usar as setinhas ou tocar nas barrinhas. A altura da
+pilha se ajusta sozinha ao tamanho de cada depoimento.
 
-Hoje estao no ar tres depoimentos, nesta ordem: Jaque, Marcus e Bruce.
-As setinhas e as barrinhas aparecem sozinhas sempre que existir mais
-de um depoimento.
+Hoje estao no ar tres, nesta ordem: Jaque, Marcus e Bruce. As setinhas
+e as barrinhas aparecem sozinhas quando existe mais de um.
 
-Para trocar a ordem, basta trocar os blocos <article class="vcard">
-de lugar dentro do index.html. O primeiro e o que aparece na abertura
-da secao.
+Para trocar a ordem, troque os blocos <article class="vcard"> de lugar.
+O primeiro e o que abre a secao.
 
-Para colocar o depoimento de outro aluno:
+Para colocar outro aluno:
 
-1. Salve a foto da pessoa na pasta img/ com um nome simples, por
-   exemplo aluno-joao.jpg. Foto em pe (mais alta que larga) fica
-   melhor, porque o card corta a imagem na horizontal.
-2. Abra o index.html e procure por: class="vcard"
-   Tem um comentario ali explicando o passo a passo.
-3. Copie o bloco inteiro, do <article class="vcard"> ate o
-   </article> correspondente, e cole logo abaixo dele.
+1. Salve a foto em img/ com um nome simples, por exemplo aluno-joao.jpg.
+   Foto em pe (mais alta que larga) fica melhor, porque o card corta a
+   imagem na horizontal.
+2. No index.html, procure por: class="vcard"
+3. Copie o bloco inteiro, do <article class="vcard"> ate o </article>
+   correspondente, e cole logo abaixo dele.
 4. No bloco novo, troque somente:
-   - o src="img/jaque.jpg" pela foto nova
-   - o alt="..." descrevendo a foto nova
-   - o nome dentro do <b>Marcus</b>
-   - os paragrafos do texto (o primeiro, com class="q-lead", e o
-     que aparece maior e em branco; use ele para a frase de efeito)
+   - o src e o alt da foto
+   - o nome dentro do <b>
+   - os paragrafos do texto (o primeiro, com class="q-lead", e o que
+     aparece maior e em branco; use ele para a frase de efeito)
 5. Salve e suba a pasta de novo.
 
 Nao mexa nas classes (vcard, vc-in, vc-photo, vc-id, q-lead...), sao
-elas que dao o visual do card e fazem a pilha funcionar.
+elas que fazem a pilha funcionar.
 
-Se o aluno nao quiser mandar foto, me avise que eu monto uma versao
-do card sem foto, porque hoje ela e a capa do depoimento.
+Depoimento longo demais afunda o card. Tres paragrafos curtos rendem
+mais que cinco longos.
 
 ===============================
 IDEIAS PARA A PROXIMA VERSAO
 ===============================
 Numero do CREF no rodape.
-Cidade ou academia onde atende presencialmente.
-Perguntas frequentes quebrando as duvidas mais comuns.
+Cidade ou academia do presencial: hoje o cartao nao diz onde e, e isso
+deve estar custando contato de gente que mora perto.
+Depoimento em audio ou video. E o formato mais convincente que existe
+hoje, porque e o mais dificil de forjar. Um audio de WhatsApp de 30
+segundos vale mais que tres paragrafos de texto.
+Ordenar as transformacoes pelo perfil de quem respondeu, mostrando
+primeiro quem comecou parecido. Exige saber o perfil real de cada aluno
+das fotos, entao depende do Pedro passar os dados.
+Numero real de vagas do mes, se ele quiser urgencia. Nunca um numero
+fixo que nao muda: em cidade onde todo mundo se conhece, isso queima.

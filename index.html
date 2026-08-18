@@ -28,6 +28,16 @@
 <div class="bg-grain"></div>
 <div class="progress" id="prog"></div>
 
+<!-- Barra de retomada: so aparece para quem ja fez o diagnostico numa
+     visita anterior. O texto e montado pelo js/script.js. -->
+<div class="resume" id="resume" hidden>
+  <span class="rz-tx">Você parou em <b id="rzPerfil"></b></span>
+  <button class="rz-go" id="rzGo" type="button">Ver meu plano</button>
+  <button class="rz-x" id="rzX" type="button" aria-label="Dispensar">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+  </button>
+</div>
+
 <!-- ============ HERO ============ -->
 <header class="hero">
   <div class="hero-media" id="heroMedia">
@@ -37,24 +47,25 @@
   <div class="hero-top"><img src="img/logo.png" alt="Pedro Augusto, Personal Trainer"></div>
 
   <div class="hero-content">
-    <span class="eyebrow">Personal trainer e atleta competidor</span>
-    <h1 class="h-title">
-      <span class="small">Especialista em</span>
-      <span class="rot"><span class="rot-word" id="rotWord">hipertrofia</span></span>
-    </h1>
-    <p class="hero-sub">Treine com quem vive o que ensina. Do primeiro treino ao palco, no presencial ou 100% online.</p>
+    <span class="eyebrow">Personal trainer e atleta de palco</span>
+    <!-- O titulo troca depois do diagnostico, conforme o perfil da pessoa.
+         O texto padrao, para quem ainda nao respondeu, e este daqui. -->
+    <h1 class="h-title" id="heroTitle">Chega de recomeçar<br>toda <span class="grad">segunda</span></h1>
+    <p class="hero-sub">Treino de atleta, calibrado no seu nível. Do primeiro dia ao palco, presencial ou online.</p>
+
     <div class="cta-row">
-      <a class="btn btn-wa wa-link" href="https://wa.me/5561991826565?text=Oi%20Pedro%21%20Vim%20pela%20sua%20p%C3%A1gina%20e%20quero%20come%C3%A7ar%20meu%20acompanhamento." target="_blank" rel="noopener">
-        <span class="pulse"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.7-.84-2-.94-.26-.1-.46-.15-.65.15-.2.29-.75.94-.92 1.13-.17.2-.34.22-.63.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.05-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.14-.17.19-.29.29-.49.1-.2.05-.36-.02-.51-.08-.15-.65-1.57-.9-2.15-.24-.56-.48-.48-.65-.49h-.56c-.19 0-.51.07-.77.36-.26.29-1.01.99-1.01 2.41 0 1.42 1.04 2.79 1.18 2.98.15.2 2.03 3.1 4.92 4.35.69.3 1.22.47 1.64.6.69.22 1.31.19 1.81.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.56-.34z"/></svg></span>
-        Chamar no WhatsApp
+      <a class="btn btn-brand" href="#diagnostico" id="heroCta">
+        <span class="bt-tx">Montar meu plano</span>
+        <svg class="ba-arrow" width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
       </a>
-      <a class="btn btn-ghost" href="#transformacoes">Ver transformações reais</a>
+      <span class="cta-alt">40 segundos e não pede seus dados</span>
     </div>
+
     <div class="socials">
       <a class="soc ig-link" href="https://instagram.com/pedroaugustopersonal" aria-label="Instagram" target="_blank" rel="noopener">
         <svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg>
       </a>
-      <a class="soc wa-link" href="https://wa.me/5561991826565?text=Oi%20Pedro%21%20Vim%20pela%20sua%20p%C3%A1gina%20e%20quero%20come%C3%A7ar%20meu%20acompanhamento." target="_blank" rel="noopener" aria-label="WhatsApp">
+      <a class="soc wa-link" href="https://wa.me/5561991826565?text=Oi%20Pedro%21%20Vim%20pela%20sua%20p%C3%A1gina%20e%20quero%20come%C3%A7ar." target="_blank" rel="noopener" aria-label="WhatsApp">
         <svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.7-.84-2-.94-.26-.1-.46-.15-.65.15-.2.29-.75.94-.92 1.13-.17.2-.34.22-.63.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.05-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.14-.17.19-.29.29-.49.1-.2.05-.36-.02-.51-.08-.15-.65-1.57-.9-2.15-.24-.56-.48-.48-.65-.49h-.56c-.19 0-.51.07-.77.36-.26.29-1.01.99-1.01 2.41 0 1.42 1.04 2.79 1.18 2.98.15.2 2.03 3.1 4.92 4.35.69.3 1.22.47 1.64.6.69.22 1.31.19 1.81.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.56-.34z"/></svg>
       </a>
     </div>
@@ -62,7 +73,7 @@
   </div>
 </header>
 
-<!-- ============ AUTHORITY ============ -->
+<!-- ============ AUTORIDADE ============ -->
 <section class="auth">
   <div class="wrap">
     <div class="auth-card reveal">
@@ -71,78 +82,86 @@
         <img src="img/premiado.jpg" alt="Pedro Augusto premiado em competição">
       </div>
       <div class="auth-body">
-        <span class="eyebrow">Por que treinar comigo</span>
-        <h2>Não é só teoria.<br>É <span class="grad">palco</span>.</h2>
-        <p class="lead">Teoria e prática juntas: eu ensino, mas também faço. Sou apaixonado por esse esporte, e a minha experiência profissional atrelada à de atleta me dá o feeling pra te auxiliar melhor no seu processo.</p>
+        <h2>Eu não ensino<br>o que eu <span class="grad">não faço</span>.</h2>
+        <p class="lead">Subo no palco. Sei o que é progressão travando, dieta apertando e semana dando errado, porque isso acontece comigo também.</p>
         <ul class="creds">
-          <li><span class="ci"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="9" r="5"/><path d="M9 13l-2 8 5-3 5 3-2-8"/></svg></span><span><b>Atleta de fisiculturismo</b> com várias conquistas.</span></li>
-          <li><span class="ci"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 3 6 3s6-2 6-3v-5"/></svg></span><span><b>Pós-graduado</b> em Treinamento de Força para Grupos Especiais.</span></li>
-          <li><span class="ci"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h4l2 6 4-14 2 8h6"/></svg></span><span><b>Desde 2018</b> na área, com mais de 500 pessoas transformadas.</span></li>
-          <li><span class="ci"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></span><span>Especialista em <b>hipertrofia, emagrecimento e estética</b>.</span></li>
+          <li><span class="ci"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="9" r="5"/><path d="M9 13l-2 8 5-3 5 3-2-8"/></svg></span><span>Atleta de fisiculturismo, com títulos</span></li>
+          <li><span class="ci"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10L12 5 2 10l10 5 10-5z"/><path d="M6 12v5c0 1 2.7 3 6 3s6-2 6-3v-5"/></svg></span><span>Pós em Treinamento de Força para Grupos Especiais</span></li>
+          <li><span class="ci"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></span><span>Hipertrofia, emagrecimento, estética e reabilitação</span></li>
         </ul>
         <div class="stats">
           <div class="stat"><div class="num" data-count="500" data-suffix="+">0</div><div class="lab">transformações</div></div>
           <div class="stat"><div class="num" data-count="7" data-suffix="">0</div><div class="lab">anos de estrada</div></div>
-          <div class="stat"><div class="num" data-count="100" data-suffix="%">0</div><div class="lab">personalizado</div></div>
+          <div class="stat"><div class="num" data-count="100" data-suffix="%">0</div><div class="lab">plano seu</div></div>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ SPECIALTIES ============ -->
-<section style="padding-top:8px">
+<!-- ============ PRIMEIRA PERGUNTA, NA PROPRIA PAGINA ============
+     De proposito a pergunta 1 acontece aqui, a vista, e nao atras de um
+     botao "comecar". Quem toca numa silhueta ja respondeu: o diagnostico
+     abre em tela cheia direto na pergunta 2, levando essa resposta junto.
+     As outras tres perguntas estao no bloco class="qzfull", no fim deste
+     arquivo. Os data-val tem que continuar batendo com os de la.      -->
+<section id="diagnostico">
   <div class="wrap">
-    <div class="sec-head reveal"><span class="eyebrow">No que eu foco</span><h2>Minhas <span class="grad">especialidades</span></h2></div>
-    <div class="spec">
-      <div class="s reveal"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.5 6.5l11 11M4 9l-2 2 2 2M20 15l2-2-2-2M9 4l2-2 2 2M15 20l-2 2-2-2"/></svg></div><h3>Hipertrofia</h3><p>Ganho de massa com técnica e progressão de verdade, sem achismo.</p></div>
-      <div class="s reveal d1"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2L4 14h6l-1 8 9-12h-6z"/></svg></div><h3>Emagrecimento</h3><p>Perder gordura sem perder saúde nem massa muscular no caminho.</p></div>
-      <div class="s reveal"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M8 14s1.5 2 4 2 4-2 4-2M9 9h.01M15 9h.01"/></svg></div><h3>Estética</h3><p>Ajuste fino pra você gostar do que vê no espelho todo dia.</p></div>
-      <div class="s reveal d1"><div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.8 11.6a8.5 8.5 0 1 1-8.4-8.4"/><path d="M12 8v4l3 2"/></svg></div><h3>Grupos especiais</h3><p>Treino seguro para você que tem alguma restrição de saúde.</p></div>
+    <div class="qzcall reveal">
+      <span class="eyebrow">Comece por aqui</span>
+      <h2>Qual desses corpos<br>parece com o seu <span class="grad">hoje</span>?</h2>
+      <div class="qf-corpos qc-corpos">
+        <button class="qf-corpo qz-inicio" type="button" data-val="magro" data-label="magro"><span class="si" data-corpo="magro"></span><b>Magro</b></button>
+        <button class="qf-corpo qz-inicio" type="button" data-val="medio" data-label="médio"><span class="si" data-corpo="medio"></span><b>Médio</b></button>
+        <button class="qf-corpo qz-inicio" type="button" data-val="acima" data-label="acima do peso"><span class="si" data-corpo="acima"></span><b>Acima do peso</b></button>
+      </div>
+      <p class="qc-nota">Toque em um e eu monto seu diagnóstico. São mais três perguntas, 40 segundos no total, sem cadastro e sem e-mail.</p>
     </div>
   </div>
 </section>
 
-<!-- ============ TRANSFORMATIONS ============ -->
+<!-- ============ TRANSFORMACOES ============
+     ATENCAO: os data-meta abaixo estao com valores DE EXEMPLO. Troque
+     pelos numeros reais de cada aluno antes de publicar, ou apague o
+     atributo do card que voce nao souber os dados: sem data-meta o card
+     aparece sem tarja, como era antes.
+     Formato: data-meta="tempo|formato|frequencia"                  -->
 <section class="proof" id="transformacoes">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="eyebrow">Prova real</span>
-      <h2>Resultados que <span class="grad">falam</span></h2>
-      <p>Alunos reais, fotos reais, sem filtro. É consistência com estratégia que muda o corpo.</p>
+      <span class="eyebrow">Prova, não promessa</span>
+      <h2>Isso aqui é <span class="grad">gente real</span></h2>
     </div>
   </div>
   <div class="tvp reveal d1">
     <div class="tcar" id="tcar">
-      <article class="tcard"><div class="ba"><span class="chip chip-b">Antes</span><span class="chip chip-a">Depois</span><img src="img/transformacao-1.jpg" alt="Transformação de aluno, antes e depois" loading="lazy"></div></article>
-      <article class="tcard"><div class="ba"><span class="chip chip-b">Antes</span><span class="chip chip-a">Depois</span><img src="img/transformacao-3.jpg" alt="Transformação de aluna, antes e depois" loading="lazy"></div></article>
-      <article class="tcard"><div class="ba"><span class="chip chip-b">Antes</span><span class="chip chip-a">Depois</span><img src="img/transformacao-4.jpg" alt="Transformação de aluno, antes e depois" loading="lazy"></div></article>
-      <article class="tcard"><div class="ba"><span class="chip chip-b">Antes</span><span class="chip chip-a">Depois</span><img src="img/transformacao-5.jpg" alt="Transformação de aluna, antes e depois" loading="lazy"></div></article>
-      <article class="tcard"><div class="ba"><span class="chip chip-b">Antes</span><span class="chip chip-a">Depois</span><img src="img/transformacao-6.jpg" alt="Transformação de aluna, antes e depois" loading="lazy"></div></article>
+      <article class="tcard" data-meta="8 meses|Online|4x por semana"><div class="ba"><span class="chip chip-b">Antes</span><span class="chip chip-a">Depois</span><img src="img/transformacao-1.jpg" alt="Transformação de aluno, antes e depois" loading="lazy"></div></article>
+      <article class="tcard" data-meta="6 meses|Presencial|5x por semana"><div class="ba"><span class="chip chip-b">Antes</span><span class="chip chip-a">Depois</span><img src="img/transformacao-3.jpg" alt="Transformação de aluna, antes e depois" loading="lazy"></div></article>
+      <article class="tcard" data-meta="1 ano|Online|4x por semana"><div class="ba"><span class="chip chip-b">Antes</span><span class="chip chip-a">Depois</span><img src="img/transformacao-4.jpg" alt="Transformação de aluno, antes e depois" loading="lazy"></div></article>
+      <article class="tcard" data-meta="10 meses|Presencial|3x por semana"><div class="ba"><span class="chip chip-b">Antes</span><span class="chip chip-a">Depois</span><img src="img/transformacao-5.jpg" alt="Transformação de aluna, antes e depois" loading="lazy"></div></article>
+      <article class="tcard" data-meta="7 meses|Online|5x por semana"><div class="ba"><span class="chip chip-b">Antes</span><span class="chip chip-a">Depois</span><img src="img/transformacao-6.jpg" alt="Transformação de aluna, antes e depois" loading="lazy"></div></article>
     </div>
   </div>
   <div class="wrap">
     <div class="tdots" id="tdots" aria-hidden="true"></div>
     <div class="swipe-hint">deslize<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 6l6 6-6 6"/></svg></div>
-    <p class="proof-note reveal">Acompanhamento presencial e online. Mais de 500 pessoas transformadas.</p>
   </div>
 </section>
 
-<!-- ============ DEPOIMENTOS ============ -->
+<!-- ============ DEPOIMENTOS ============
+     PARA ADICIONAR OUTRO: copie o <article class="vcard"> inteiro (do
+     <article> ate o </article>), cole logo abaixo dele e troque so tres
+     coisas: 1) o src e o alt da foto  2) o nome dentro do <b>  3) os
+     paragrafos do texto. O primeiro paragrafo (class="q-lead") e o que
+     aparece maior e em branco. As setinhas e as barrinhas se ajustam
+     sozinhas a quantidade de cards.                                 -->
 <section class="voices" id="depoimentos">
   <div class="wrap">
     <div class="sec-head reveal">
-      <span class="eyebrow">Na palavra dos alunos</span>
-      <h2>Depoimentos <span class="grad">reais</span></h2>
-      <p>Sem roteiro e sem edição. O que chega pra mim de quem viveu o processo do começo ao fim.</p>
+      <span class="eyebrow">Sem roteiro</span>
+      <h2>O que eles <span class="grad">me mandaram</span></h2>
     </div>
 
-    <!-- PARA ADICIONAR OUTRO DEPOIMENTO: copie o <article class="vcard"> inteiro
-         (do <article> ate o </article>), cole logo abaixo dele e troque so 3 coisas:
-         1) o src e o alt da foto   2) o nome dentro do <b>   3) os paragrafos do texto.
-         O primeiro paragrafo (class="q-lead") e o que aparece maior e em branco.
-         As setinhas e as barrinhas de baixo se ajustam sozinhas a quantidade
-         de cards. Com um depoimento so, elas nem aparecem. -->
     <div class="vdeck reveal d1">
       <div class="vd-stage" id="vdStage">
       <article class="vcard">
@@ -162,15 +181,13 @@
         </div>
         <blockquote class="vc-text">
           <span class="qm" aria-hidden="true">&rdquo;</span>
-          <p class="q-lead">Você foi muito mais do que um professor nessa caminhada.</p>
-          <p>Acreditou em mim quando eu mesma duvidava da minha capacidade e, em muitos momentos, me fez enxergar que eu era capaz de ir além.</p>
-          <p>Você me conduziu com competência, paciência e sensibilidade. Respeitou minhas limitações, cuidou das minhas dores, das minhas &ldquo;pseudo-lesões&rdquo; e nunca me deixou desistir. Sempre esteve presente para me orientar não apenas nos treinos e na alimentação, mas também no emocional.</p>
-          <p>Os resultados que estou conquistando têm muito, mas muito mesmo, do seu trabalho, da sua dedicação e da confiança que você depositou em mim.</p>
-          <p>E isso é só o começo. Tenho certeza de que, com a sua orientação, vou conquistar metas ainda maiores e construir o físico que tanto sonho. Obrigaaaa! ❤️</p>
+          <p class="q-lead">Você acreditou em mim quando eu mesma duvidava da minha capacidade.</p>
+          <p>Me conduziu com competência, paciência e sensibilidade. Respeitou minhas limitações, cuidou das minhas dores e nunca me deixou desistir. Sempre presente pra me orientar não só nos treinos e na alimentação, mas também no emocional.</p>
+          <p>Os resultados que estou conquistando têm muito, mas muito mesmo, do seu trabalho. E isso é só o começo.</p>
         </blockquote>
         <div class="vc-src">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.7-.84-2-.94-.26-.1-.46-.15-.65.15-.2.29-.75.94-.92 1.13-.17.2-.34.22-.63.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.05-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.14-.17.19-.29.29-.49.1-.2.05-.36-.02-.51-.08-.15-.65-1.57-.9-2.15-.24-.56-.48-.48-.65-.49h-.56c-.19 0-.51.07-.77.36-.26.29-1.01.99-1.01 2.41 0 1.42 1.04 2.79 1.18 2.98.15.2 2.03 3.1 4.92 4.35.69.3 1.22.47 1.64.6.69.22 1.31.19 1.81.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.56-.34zM12.05 21.5h-.03a9.5 9.5 0 0 1-4.83-1.32l-.35-.2-3.6.94.96-3.5-.23-.36a9.44 9.44 0 0 1-1.45-5.03c0-5.23 4.27-9.49 9.52-9.49 2.54 0 4.93.99 6.72 2.78a9.42 9.42 0 0 1 2.78 6.72c0 5.23-4.27 9.48-9.52 9.48z"/></svg>
-          Depoimento enviado pelo próprio aluno no WhatsApp
+          Mandado no WhatsApp pela própria aluna
         </div>
         <span class="vc-sheen" aria-hidden="true"></span>
        </div>
@@ -193,13 +210,13 @@
         </div>
         <blockquote class="vc-text">
           <span class="qm" aria-hidden="true">&rdquo;</span>
-          <p class="q-lead">Mais do que um excelente personal, o Pedro Augusto se tornou um grande incentivador na minha jornada.</p>
-          <p>Em muitos momentos em que pensei em desistir, foi o apoio, a dedicação e a confiança dele que me fizeram continuar. Hoje não vejo apenas mudanças no meu corpo, mas também na minha disposição, autoestima e qualidade de vida.</p>
-          <p>Sou profundamente grato por todo o acompanhamento e cuidado. Recomendo o Pedro não apenas pelo conhecimento técnico, mas pelo ser humano extraordinário que ele é e pelo impacto positivo que faz na vida de quem treina com ele.</p>
+          <p class="q-lead">Em muitos momentos em que pensei em desistir, foi a confiança dele que me fez continuar.</p>
+          <p>Hoje não vejo apenas mudanças no meu corpo, mas também na minha disposição, autoestima e qualidade de vida.</p>
+          <p>Recomendo o Pedro não apenas pelo conhecimento técnico, mas pelo ser humano extraordinário que ele é e pelo impacto positivo que faz na vida de quem treina com ele.</p>
         </blockquote>
         <div class="vc-src">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.7-.84-2-.94-.26-.1-.46-.15-.65.15-.2.29-.75.94-.92 1.13-.17.2-.34.22-.63.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.05-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.14-.17.19-.29.29-.49.1-.2.05-.36-.02-.51-.08-.15-.65-1.57-.9-2.15-.24-.56-.48-.48-.65-.49h-.56c-.19 0-.51.07-.77.36-.26.29-1.01.99-1.01 2.41 0 1.42 1.04 2.79 1.18 2.98.15.2 2.03 3.1 4.92 4.35.69.3 1.22.47 1.64.6.69.22 1.31.19 1.81.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.56-.34zM12.05 21.5h-.03a9.5 9.5 0 0 1-4.83-1.32l-.35-.2-3.6.94.96-3.5-.23-.36a9.44 9.44 0 0 1-1.45-5.03c0-5.23 4.27-9.49 9.52-9.49 2.54 0 4.93.99 6.72 2.78a9.42 9.42 0 0 1 2.78 6.72c0 5.23-4.27 9.48-9.52 9.48z"/></svg>
-          Depoimento enviado pelo próprio aluno no WhatsApp
+          Mandado no WhatsApp pelo próprio aluno
         </div>
         <span class="vc-sheen" aria-hidden="true"></span>
        </div>
@@ -222,14 +239,13 @@
         </div>
         <blockquote class="vc-text">
           <span class="qm" aria-hidden="true">&rdquo;</span>
-          <p class="q-lead">Após realizar cirurgia ortopédica por ter sofrido acidente de moto, precisava fazer exercícios para recuperar a funcionalidade e a mobilidade.</p>
-          <p>Retomar os treinos na academia era um grande desafio. Amigos próximos elogiaram o trabalho desenvolvido e me indicaram o Pedro como personal. Logo na avaliação, percebi o vasto conhecimento técnico e o cuidado na prescrição dos exercícios.</p>
-          <p>As orientações e o acompanhamento individualizado prestados pelo Pedro foram fundamentais no processo de recuperação e fortalecimento muscular. O trabalho conduzido com progressividade foi determinante para a minha evolução nos treinos e para os resultados alcançados.</p>
-          <p>Minha gratidão pelo profissionalismo, incentivo constante e compromisso durante toda essa trajetória.</p>
+          <p class="q-lead">Depois de uma cirurgia ortopédica, retomar os treinos era um grande desafio.</p>
+          <p>Logo na avaliação percebi o vasto conhecimento técnico e o cuidado na prescrição dos exercícios. O acompanhamento individualizado foi fundamental na recuperação e no fortalecimento muscular.</p>
+          <p>O trabalho conduzido com progressividade foi determinante para a minha evolução e para os resultados alcançados.</p>
         </blockquote>
         <div class="vc-src">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.7-.84-2-.94-.26-.1-.46-.15-.65.15-.2.29-.75.94-.92 1.13-.17.2-.34.22-.63.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.05-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.14-.17.19-.29.29-.49.1-.2.05-.36-.02-.51-.08-.15-.65-1.57-.9-2.15-.24-.56-.48-.48-.65-.49h-.56c-.19 0-.51.07-.77.36-.26.29-1.01.99-1.01 2.41 0 1.42 1.04 2.79 1.18 2.98.15.2 2.03 3.1 4.92 4.35.69.3 1.22.47 1.64.6.69.22 1.31.19 1.81.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.56-.34zM12.05 21.5h-.03a9.5 9.5 0 0 1-4.83-1.32l-.35-.2-3.6.94.96-3.5-.23-.36a9.44 9.44 0 0 1-1.45-5.03c0-5.23 4.27-9.49 9.52-9.49 2.54 0 4.93.99 6.72 2.78a9.42 9.42 0 0 1 2.78 6.72c0 5.23-4.27 9.48-9.52 9.48z"/></svg>
-          Depoimento enviado pelo próprio aluno no WhatsApp
+          Mandado no WhatsApp pelo próprio aluno
         </div>
         <span class="vc-sheen" aria-hidden="true"></span>
        </div>
@@ -249,109 +265,162 @@
   </div>
 </section>
 
-<!-- ============ ABOUT ============ -->
-<section>
-  <div class="wrap">
-    <div class="about-card reveal">
-      <img src="img/pedro-palco.jpg" alt="Pedro Augusto no palco">
-      <div class="ov"></div>
-      <div class="txt">
-        <span class="eyebrow">Prazer, sou o Pedro</span>
-        <h2>Personal trainer<br>e <span class="grad">atleta</span></h2>
-        <p>Estou na área <strong>desde 2018</strong> e já ajudei <strong>mais de 500 pessoas</strong> a virarem a melhor versão de si, no presencial e no online.</p>
-      </div>
-    </div>
-    <ul class="edge reveal d1">
-      <li>
-        <span class="ei"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 3l2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5L4.8 8.2l5-.7z"/></svg></span>
-        <b>Plano feito do zero</b><span>Nada de planilha pronta ou treino copiado da internet.</span>
-      </li>
-      <li>
-        <span class="ei"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
-        <b>Acompanho de perto</b><span>Ajuste toda semana. Você nunca treina no escuro.</span>
-      </li>
-      <li>
-        <span class="ei"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 17l5-5 4 3 5-7 4 4"/><path d="M3 21h18"/></svg></span>
-        <b>Do zero ao palco</b><span>Do primeiro treino da vida ao atleta de competição.</span>
-      </li>
-      <li>
-        <span class="ei"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 21s-7-4.5-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 11c0 5.5-7 10-7 10z"/></svg></span>
-        <b>Foco no que dura</b><span>Resultado que se segura o ano todo, não por uma semana.</span>
-      </li>
-    </ul>
-    <div class="about-sign reveal d2">Bora <span>evoluir de verdade</span>.</div>
-  </div>
-</section>
+<!-- ============ PLANOS ============
+     ATENCAO, PRECOS DE EXEMPLO: os valores dentro de <b> nos blocos
+     .price sao rascunho, NAO sao os precos do Pedro. Troque pelos
+     valores reais antes de publicar. Para nao mostrar preco, troque o
+     numero por "Sob consulta" e apague o <em> ao lado.
 
-<!-- ============ HOW IT WORKS ============ -->
-<section>
+     O selo "Mais escolhido" e o padrao. Quem responde o diagnostico
+     recebe no lugar dele um selo verde, calculado pelo js/script.js
+     a partir das respostas.                                        -->
+<section id="planos">
   <div class="wrap">
-    <div class="sec-head reveal"><span class="eyebrow">Simples assim</span><h2>Como a gente <span class="grad">começa</span></h2></div>
-    <div class="steps">
-      <div class="step reveal"><div class="n">1</div><div><h3>Você me chama no WhatsApp</h3><p>A gente conversa sobre seu momento, sua rotina e o que você quer alcançar.</p></div></div>
-      <div class="step reveal d1"><div class="n">2</div><div><h3>Avaliação e plano sob medida</h3><p>Monto treino e estratégia pensados pra você, não um modelo genérico de prateleira.</p></div></div>
-      <div class="step reveal d2"><div class="n">3</div><div><h3>Você treina e evolui com acompanhamento</h3><p>Ajustes constantes e cobrança na medida certa. Evolução real, semana após semana.</p></div></div>
+    <div class="sec-head reveal">
+      <span class="eyebrow">Sem letra miúda</span>
+      <h2>Quanto custa e <span class="grad">o que entra</span></h2>
     </div>
-  </div>
-</section>
 
-<!-- ============ SERVICES ============ -->
-<section style="padding-top:8px">
-  <div class="wrap">
-    <div class="sec-head reveal"><span class="eyebrow">Como quiser treinar</span><h2>Escolha seu <span class="grad">formato</span></h2></div>
-    <div class="svc">
-      <div class="card2 reveal">
-        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="5" y="2" width="14" height="20" rx="3"/><path d="M11 18h2"/></svg></div>
-        <h3>Consultoria Online</h3>
+    <div class="plan-hint" id="planHint" hidden></div>
+
+    <div class="plans">
+      <div class="plan reveal" data-plano="essencial">
+        <span class="plan-fmt">Online</span>
+        <h3>Essencial</h3>
+        <p class="who">Você já treina firme. Só falta o plano certo.</p>
+        <div class="price"><b>R$ 149</b><em>/mês</em></div>
         <ul>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Treine de onde estiver</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Plano no app, ajustado a você</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Suporte direto comigo</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Treino montado do zero pra você</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>App com vídeo de cada exercício</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Reajuste a cada 30 dias</li>
+          <li class="off"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>Sem ajuste semanal</li>
+          <li class="off"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>Sem videochamada</li>
         </ul>
+        <a class="btn btn-line wa-link" href="https://wa.me/5561991826565?text=Oi%20Pedro%21%20Quero%20o%20plano%20Essencial." target="_blank" rel="noopener">Quero o Essencial</a>
       </div>
-      <div class="card2 reveal d1">
-        <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="7" r="3.2"/><path d="M5 21c0-3.9 3.1-6.5 7-6.5s7 2.6 7 6.5"/></svg></div>
+
+      <div class="plan is-top reveal d1" data-plano="premium">
+        <span class="plan-tag">Mais escolhido</span>
+        <span class="plan-fmt">Online</span>
+        <h3>Premium</h3>
+        <p class="who">Você já tentou sozinho. Dessa vez tem alguém puxando.</p>
+        <div class="price"><b>R$ 249</b><em>/mês</em></div>
+        <ul>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Tudo do Essencial</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Ajuste toda semana</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Videochamada de avaliação</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Corrijo sua execução por vídeo</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Meu WhatsApp direto</li>
+        </ul>
+        <a class="btn btn-wa wa-link" href="https://wa.me/5561991826565?text=Oi%20Pedro%21%20Quero%20o%20plano%20Premium." target="_blank" rel="noopener">
+          <span class="pulse"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.7-.84-2-.94-.26-.1-.46-.15-.65.15-.2.29-.75.94-.92 1.13-.17.2-.34.22-.63.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.05-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.14-.17.19-.29.29-.49.1-.2.05-.36-.02-.51-.08-.15-.65-1.57-.9-2.15-.24-.56-.48-.48-.65-.49h-.56c-.19 0-.51.07-.77.36-.26.29-1.01.99-1.01 2.41 0 1.42 1.04 2.79 1.18 2.98.15.2 2.03 3.1 4.92 4.35.69.3 1.22.47 1.64.6.69.22 1.31.19 1.81.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.56-.34z"/></svg></span>
+          Quero o Premium
+        </a>
+      </div>
+
+      <!-- Se o Pedro quiser citar a cidade ou a academia, o lugar e o
+           <p class="who"> aqui embaixo. -->
+      <div class="plan reveal d2" data-plano="presencial">
+        <span class="plan-fmt">Ao vivo, comigo</span>
         <h3>Presencial</h3>
+        <p class="who">Você rende mais com alguém corrigindo na hora.</p>
+        <div class="price"><b>Sob avaliação</b></div>
         <ul>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Correção de perto, técnica certa</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Intensidade no ponto</li>
-          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Motivação que não deixa você parar</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Treino conduzido comigo, do início ao fim</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Erro corrigido no segundo em que acontece</li>
+          <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Avaliação física presencial</li>
+          <li class="off"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>Agenda limitada aos horários em aberto</li>
         </ul>
+        <a class="btn btn-line wa-link" href="https://wa.me/5561991826565?text=Oi%20Pedro%21%20Quero%20o%20presencial.%20Quais%20hor%C3%A1rios%20voc%C3%AA%20tem%3F" target="_blank" rel="noopener">Ver horários</a>
+      </div>
+    </div>
+
+    <!-- Esta garantia e uma promessa em nome do Pedro. Confirme com ele
+         antes de publicar; se ele nao topar, apague o bloco. -->
+    <div class="guard reveal d2">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 3l7.5 3v5.5c0 4.4-3.1 8.2-7.5 9.5-4.4-1.3-7.5-5.1-7.5-9.5V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg>
+      <span><b>Primeira semana de ajuste.</b> Se o treino não couber na sua rotina, eu refaço sem cobrar nada.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REGRAS DO JOGO ============ -->
+<section style="padding-top:8px">
+  <div class="wrap">
+    <div class="rules reveal">
+      <h3>Não me procure <span class="grad">se</span></h3>
+      <ul>
+        <li><span class="rx"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span>Você quer resultado em 30 dias.</li>
+        <li><span class="rx"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span>Você quer o mais barato, não o que funciona.</li>
+        <li><span class="rx"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span>Você quer atalho. Aqui é treino, comida e constância.</li>
+      </ul>
+      <div class="turn">Se nada disso é você, <span>a gente vai se dar bem</span>.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DUVIDAS ============
+     Para acrescentar uma pergunta, copie um bloco .faq-i inteiro, cole
+     abaixo e troque o texto do <button> e do <p>. O script se ajusta
+     sozinho, nao precisa numerar nada.                             -->
+<section style="padding-top:8px" id="duvidas">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <span class="eyebrow">Direto ao ponto</span>
+      <h2>O que todo mundo <span class="grad">pergunta</span></h2>
+    </div>
+    <div class="faq reveal d1">
+      <div class="faq-i">
+        <button class="faq-q" type="button">Não tenho tempo.<span class="fx"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>
+        <div class="faq-a"><div><p>45 a 60 minutos. Se a sua semana só comporta três treinos, eu monto pra três. Plano que só funciona na semana perfeita não funciona nunca.</p></div></div>
+      </div>
+      <div class="faq-i">
+        <button class="faq-q" type="button">Tenho vergonha da academia.<span class="fx"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>
+        <div class="faq-a"><div><p>Vergonha vem de não saber o que fazer, não da academia. Você entra sabendo cada exercício, com vídeo de execução. Boa parte dos meus alunos chegou exatamente assim.</p></div></div>
+      </div>
+      <div class="faq-i">
+        <button class="faq-q" type="button">Online funciona mesmo?<span class="fx"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>
+        <div class="faq-a"><div><p>Pra quem consegue seguir um plano sozinho, sim. Pra quem precisa de alguém empurrando na hora, não. Não vou dizer que serve pra todo mundo, porque não serve.</p></div></div>
+      </div>
+      <div class="faq-i">
+        <button class="faq-q" type="button">Tenho lesão. Posso treinar?<span class="fx"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>
+        <div class="faq-a"><div><p>Quase sempre sim, e é aí que a escolha do profissional pesa. Sou pós-graduado em Treinamento de Força para Grupos Especiais. Se for caso de liberação médica, eu vou pedir a liberação.</p></div></div>
+      </div>
+      <div class="faq-i">
+        <button class="faq-q" type="button">Você monta a dieta?<span class="fx"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>
+        <div class="faq-a"><div><p>Dieta é do nutricionista e eu não invado essa área. Faço orientação alimentar dentro do que cabe ao personal e converso direto com o seu nutri. Se não tiver um, eu indico.</p></div></div>
+      </div>
+      <div class="faq-i">
+        <button class="faq-q" type="button">Tem fidelidade?<span class="fx"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></svg></span></button>
+        <div class="faq-a"><div><p>Não. Mensal, sem contrato e sem multa. Só peço que me avise se parar: prefiro entender o que não funcionou.</p></div></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ============ LINKS ============ -->
-<section style="padding-top:8px">
-  <div class="wrap">
-    <div class="sec-head reveal"><span class="eyebrow">Meus canais</span><h2>Fala <span class="grad">comigo</span></h2></div>
-    <div class="links">
-      <a class="lnk wa wa-link reveal" href="https://wa.me/5561991826565?text=Oi%20Pedro%21%20Vim%20pela%20sua%20p%C3%A1gina%20e%20quero%20come%C3%A7ar%20meu%20acompanhamento." target="_blank" rel="noopener">
-        <span class="li"><svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.7-.84-2-.94-.26-.1-.46-.15-.65.15-.2.29-.75.94-.92 1.13-.17.2-.34.22-.63.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.05-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.14-.17.19-.29.29-.49.1-.2.05-.36-.02-.51-.08-.15-.65-1.57-.9-2.15-.24-.56-.48-.48-.65-.49h-.56c-.19 0-.51.07-.77.36-.26.29-1.01.99-1.01 2.41 0 1.42 1.04 2.79 1.18 2.98.15.2 2.03 3.1 4.92 4.35.69.3 1.22.47 1.64.6.69.22 1.31.19 1.81.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.56-.34z"/></svg></span>
-        <span class="tx"><b>WhatsApp</b><span>Começar meu acompanhamento agora</span></span>
-        <span class="arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 6l6 6-6 6"/></svg></span>
-      </a>
-      <a class="lnk ig-link reveal d1" href="https://instagram.com/pedroaugustopersonal" target="_blank" rel="noopener">
-        <span class="li"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="2.5" y="2.5" width="19" height="19" rx="5.5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.4" cy="6.6" r="1.1" fill="currentColor" stroke="none"/></svg></span>
-        <span class="tx"><b>Instagram</b><span>@pedroaugustopersonal</span></span>
-        <span class="arrow"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M9 6l6 6-6 6"/></svg></span>
-      </a>
-    </div>
-  </div>
-</section>
-
-<!-- ============ FINAL CTA ============ -->
-<section style="padding-top:8px">
+<!-- ============ FECHAMENTO ============
+     A isca do guia some para quem acabou de responder o diagnostico
+     (pessoa quente nao precisa de saida mais facil) e volta a aparecer
+     numa visita seguinte. O guia precisa existir de verdade antes de
+     publicar; se ainda nao existir, apague o bloco .fallback inteiro. -->
+<section style="padding-top:8px" id="fechamento">
   <div class="wrap">
     <div class="final reveal">
-      <h2>Sua evolução<br>começa hoje</h2>
-      <p>Chega de recomeçar toda segunda. Me chama no WhatsApp e eu monto seu plano.</p>
-      <a class="btn btn-wa wa-link" href="https://wa.me/5561991826565?text=Oi%20Pedro%21%20Vim%20pela%20sua%20p%C3%A1gina%20e%20quero%20come%C3%A7ar%20meu%20acompanhamento." target="_blank" rel="noopener">
+      <h2>Segunda-feira<br>é hoje</h2>
+      <p>Me chama e eu monto seu plano. Sem compromisso e sem enrolação.</p>
+      <a class="btn btn-wa wa-link" id="finalCta" href="https://wa.me/5561991826565?text=Oi%20Pedro%21%20Cheguei%20at%C3%A9%20o%20final%20da%20p%C3%A1gina%20e%20quero%20come%C3%A7ar." target="_blank" rel="noopener">
         <span class="pulse"><svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.7-.84-2-.94-.26-.1-.46-.15-.65.15-.2.29-.75.94-.92 1.13-.17.2-.34.22-.63.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.05-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.14-.17.19-.29.29-.49.1-.2.05-.36-.02-.51-.08-.15-.65-1.57-.9-2.15-.24-.56-.48-.48-.65-.49h-.56c-.19 0-.51.07-.77.36-.26.29-1.01.99-1.01 2.41 0 1.42 1.04 2.79 1.18 2.98.15.2 2.03 3.1 4.92 4.35.69.3 1.22.47 1.64.6.69.22 1.31.19 1.81.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.56-.34z"/></svg></span>
-        Quero começar agora
+        Chamar agora
       </a>
-      <div class="rea"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Resposta rápida, sem compromisso</div>
+      <div class="rea"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Respondo rápido, sem compromisso</div>
+    </div>
+
+    <div class="fallback reveal d1" id="fallback">
+      <span>Ainda não é a hora?</span>
+      <a class="wa-link" href="https://wa.me/5561991826565?text=Oi%20Pedro%21%20Quero%20o%20guia%20dos%205%20erros." target="_blank" rel="noopener">
+        Pega o guia dos 5 erros que travam o resultado
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+      </a>
     </div>
   </div>
 </section>
@@ -362,15 +431,116 @@
     <img class="flogo" src="img/logo-footer.png" alt="Pedro Augusto">
     <div class="fname">Pedro Augusto</div>
     <div class="fsub">Personal Trainer e atleta. Presencial e online.</div>
+    <div class="fsoc">
+      <a class="ig-link" href="https://instagram.com/pedroaugustopersonal" target="_blank" rel="noopener">@pedroaugustopersonal</a>
+    </div>
     <div class="cred">© <span id="yr"></span> Pedro Augusto. Todos os direitos reservados.</div>
   </div>
 </footer>
 
 <!-- ============ FAB ============ -->
-<a class="fab wa-link" href="https://wa.me/5561991826565?text=Oi%20Pedro%21%20Vim%20pela%20sua%20p%C3%A1gina%20e%20quero%20come%C3%A7ar%20meu%20acompanhamento." target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
+<a class="fab wa-link" href="https://wa.me/5561991826565?text=Oi%20Pedro%21%20Estou%20na%20sua%20p%C3%A1gina%20e%20queria%20tirar%20uma%20d%C3%BAvida." target="_blank" rel="noopener" aria-label="Falar no WhatsApp">
   <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.7-.84-2-.94-.26-.1-.46-.15-.65.15-.2.29-.75.94-.92 1.13-.17.2-.34.22-.63.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.05-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.14-.17.19-.29.29-.49.1-.2.05-.36-.02-.51-.08-.15-.65-1.57-.9-2.15-.24-.56-.48-.48-.65-.49h-.56c-.19 0-.51.07-.77.36-.26.29-1.01.99-1.01 2.41 0 1.42 1.04 2.79 1.18 2.98.15.2 2.03 3.1 4.92 4.35.69.3 1.22.47 1.64.6.69.22 1.31.19 1.81.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.56-.34zM12.05 21.5h-.03a9.5 9.5 0 0 1-4.83-1.32l-.35-.2-3.6.94.96-3.5-.23-.36a9.44 9.44 0 0 1-1.45-5.03c0-5.23 4.27-9.49 9.52-9.49 2.54 0 4.93.99 6.72 2.78a9.42 9.42 0 0 1 2.78 6.72c0 5.23-4.27 9.48-9.52 9.48z"/></svg>
   <span class="txt">Chamar agora</span>
 </a>
+
+<!-- ============ DIAGNOSTICO EM TELA CHEIA ============
+     Uma pergunta por tela, sem rolagem, no modelo dos funis de quiz.
+     Abre por qualquer botao com a classe .qz-abrir.
+
+     As perguntas 1 e 2 sao o coracao da coisa: a pessoa aponta o corpo
+     que tem e o corpo que quer, e o intervalo entre os dois define o
+     perfil dela. Por isso nao existe pergunta de "qual seu objetivo":
+     o objetivo e deduzido, nao perguntado.
+
+     As silhuetas sao desenhadas em SVG pelo js/script.js, entao nao
+     dependem de nenhuma foto e funcionam em qualquer tela.        -->
+<div class="qzfull" id="qzFull" hidden role="dialog" aria-modal="true" aria-label="Diagnóstico">
+  <div class="qf-top">
+    <button class="qf-ico" id="qfBack" type="button" aria-label="Pergunta anterior">
+      <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg>
+    </button>
+    <div class="qf-rail" id="qfRail" aria-hidden="true"></div>
+    <button class="qf-ico" id="qfClose" type="button" aria-label="Fechar diagnóstico">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+
+  <div class="qf-body" id="qfBody">
+    <div class="qf-pane is-on" data-key="hoje">
+      <h2 class="qf-q">Qual desses corpos<br>parece com o seu <span class="grad">hoje</span>?</h2>
+      <div class="qf-corpos">
+        <button class="qf-corpo" type="button" data-val="magro" data-label="magro"><span class="si" data-corpo="magro"></span><b>Magro</b></button>
+        <button class="qf-corpo" type="button" data-val="medio" data-label="médio"><span class="si" data-corpo="medio"></span><b>Médio</b></button>
+        <button class="qf-corpo" type="button" data-val="acima" data-label="acima do peso"><span class="si" data-corpo="acima"></span><b>Acima do peso</b></button>
+      </div>
+      <p class="qf-nota">Sem julgamento e sem foto. Isso serve só pra calibrar o plano.</p>
+    </div>
+
+    <div class="qf-pane" data-key="meta">
+      <h2 class="qf-q">E qual você <span class="grad">quer ter</span>?</h2>
+      <div class="qf-corpos">
+        <button class="qf-corpo" type="button" data-val="forma" data-label="em forma"><span class="si" data-corpo="forma"></span><b>Em forma</b></button>
+        <button class="qf-corpo" type="button" data-val="musculoso" data-label="musculoso"><span class="si" data-corpo="musculoso"></span><b>Musculoso</b></button>
+        <button class="qf-corpo" type="button" data-val="muito" data-label="bem musculoso"><span class="si" data-corpo="muito"></span><b>Bem musculoso</b></button>
+      </div>
+      <p class="qf-nota">Pode mirar alto. Eu digo no fim quanto tempo costuma levar.</p>
+    </div>
+
+    <div class="qf-pane" data-key="tentou">
+      <h2 class="qf-q">O que você <span class="grad">já tentou</span>?</h2>
+      <div class="qf-opts">
+        <button class="qf-opt" type="button" data-val="nunca" data-label="nunca treinei de verdade"><span class="k">A</span>Nunca treinei de verdade</button>
+        <button class="qf-opt" type="button" data-val="semplano" data-label="treino, mas sem plano nenhum"><span class="k">B</span>Treino, mas sem plano nenhum</button>
+        <button class="qf-opt" type="button" data-val="travado" data-label="travei faz meses"><span class="k">C</span>Travei faz meses</button>
+        <button class="qf-opt" type="button" data-val="lesao" data-label="voltando de lesão ou parada longa"><span class="k">D</span>Voltando de lesão ou parada</button>
+      </div>
+    </div>
+
+    <!-- A pergunta e feita pela pagina, mas quem responde e o visitante.
+         Por isso as opcoes falam na voz DELE e chamam o Pedro pelo nome:
+         "comigo" aqui faria a pessoa dizer que quer ficar do lado dela
+         mesma. Vale para qualquer opcao nova que voce acrescentar. -->
+    <div class="qf-pane" data-key="onde">
+      <h2 class="qf-q">E como você <span class="grad">quer treinar</span>?</h2>
+      <div class="qf-opts">
+        <button class="qf-opt" type="button" data-val="presencial" data-label="presencial, com o Pedro do meu lado"><span class="k">A</span>Presencial, com o Pedro do meu lado</button>
+        <button class="qf-opt" type="button" data-val="online" data-label="online, no meu ritmo"><span class="k">B</span>Online, no meu ritmo</button>
+      </div>
+    </div>
+
+    <!-- resultado -->
+    <div class="qf-pane qf-res" id="qfRes" aria-live="polite">
+      <div class="gap" id="qfGap">
+        <div class="gap-l"><span class="si" id="qfSiA"></span><b>hoje</b></div>
+        <div class="gap-m">
+          <span class="gap-chip" id="qfSalto"></span>
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M13 6l6 6-6 6"/></svg>
+          <span class="gap-prazo" id="qfPrazo"></span>
+        </div>
+        <div class="gap-r"><span class="si" id="qfSiB"></span><b>sua meta</b></div>
+      </div>
+
+      <p class="qf-vered" id="qfVered"></p>
+
+      <div class="qf-sub">Como costuma ser o caminho</div>
+      <ol class="tl" id="qfTl"></ol>
+      <p class="tl-note">É o que costuma acontecer com quem chega no seu ponto, não uma promessa. Depende de quanto você aparece.</p>
+
+      <div class="qf-cost" id="qfCost"></div>
+
+      <a class="btn btn-wa wa-link qf-cta" id="qfCta" href="https://wa.me/5561991826565" target="_blank" rel="noopener">
+        <span class="pulse"><svg width="21" height="21" viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.15-1.7-.84-2-.94-.26-.1-.46-.15-.65.15-.2.29-.75.94-.92 1.13-.17.2-.34.22-.63.08-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.05-.17-.29-.02-.45.13-.6.13-.13.29-.34.44-.51.14-.17.19-.29.29-.49.1-.2.05-.36-.02-.51-.08-.15-.65-1.57-.9-2.15-.24-.56-.48-.48-.65-.49h-.56c-.19 0-.51.07-.77.36-.26.29-1.01.99-1.01 2.41 0 1.42 1.04 2.79 1.18 2.98.15.2 2.03 3.1 4.92 4.35.69.3 1.22.47 1.64.6.69.22 1.31.19 1.81.11.55-.08 1.7-.69 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.26-.19-.56-.34z"/></svg></span>
+        Mandar isso pro Pedro
+      </a>
+      <button class="qf-alt" id="qfVerPlano" type="button">ver meu plano recomendado</button>
+    </div>
+  </div>
+
+  <div class="qf-foot">
+    <span class="qf-priv">Fica só no seu celular. Nada é enviado.</span>
+  </div>
+</div>
 
 <script src="js/script.js"></script>
 </body>

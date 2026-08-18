@@ -16,23 +16,37 @@ editar, mas a pagina continua exatamente igual visualmente.
 ===============================
 ONDE O SITE ESTA NO AR
 ===============================
-Endereco: https://pedroaugustopersonal.com.br
+Endereco provisorio: https://pedro-augusto.pages.dev
+Endereco final:      https://pedroaugustopersonal.com.br
+                     (falta apontar o DNS, veja a secao seguinte)
 
-Hospedagem: Cloudflare Pages (plano gratuito).
-Dominio: registrado no registro.br, com o DNS apontando para o
-Cloudflare. O registro.br continua sendo onde o dominio e pago e
-renovado todo ano; o Cloudflare so cuida do DNS e da hospedagem.
+Hospedagem: Cloudflare Pages, projeto "pedro-augusto", plano gratuito.
+Dominio: registrado no registro.br. O registro.br continua sendo onde
+o dominio e pago e renovado todo ano; o Cloudflare so cuida do DNS e
+da hospedagem. Um dominio .com.br nao pode ser transferido para o
+Cloudflare como registrador.
 
 COMO ATUALIZAR O SITE
-O Cloudflare esta ligado ao repositorio do GitHub. Toda alteracao
-enviada para a branch main publica sozinha em cerca de 30 segundos.
-Nao existe passo manual: nao precisa arrastar pasta nem apertar botao
-de publicar. Para ver o andamento, entre no painel do Cloudflare, em
-Workers & Pages, e abra a aba Deployments do projeto.
+A publicacao e por envio direto da pasta, igual aos outros sites da
+conta. Dentro da pasta do projeto, rode:
+
+  npx wrangler pages deploy . --project-name=pedro-augusto --branch=main
+
+Em poucos segundos a alteracao esta no ar. Enviar para o GitHub apenas
+guarda o codigo, nao publica nada sozinho.
 
 Se algo der errado numa atualizacao, o Cloudflare guarda todas as
-versoes anteriores. Basta abrir a versao antiga em Deployments e
-clicar em Rollback para voltar o site ao que era antes.
+versoes anteriores. Entre no painel, em Workers & Pages, abra o projeto
+na aba Deployments, escolha a versao antiga e clique em Rollback.
+
+O QUE AINDA FALTA PARA O DOMINIO PROPRIO
+1. No painel do Cloudflare, usar "Add a site" e cadastrar
+   pedroaugustopersonal.com.br no plano Free. Ele devolve dois
+   servidores de nome terminados em ns.cloudflare.com.
+2. No registro.br, trocar os servidores DNS atuais (a.auto.dns.br e
+   b.auto.dns.br) pelos dois do Cloudflare.
+3. No projeto pedro-augusto, aba Custom domains, adicionar o dominio.
+Depois disso o certificado de seguranca sai sozinho.
 
 ===============================
 COMO TESTAR O BOTAO DO WHATSAPP

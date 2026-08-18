@@ -1,0 +1,7 @@
+# Cache local do Wrangler, criado ao publicar no Cloudflare.
+# Nao serve para mais ninguem e nao deve ir para o repositorio.
+.wrangler/
+
+# Lixo de sistema
+Thumbs.db
+.DS_Store

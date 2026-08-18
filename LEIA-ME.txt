@@ -71,12 +71,9 @@ usar as setinhas ou tocar nas barrinhas embaixo. O card que ja passou
 sai pela esquerda e a altura da pilha se ajusta sozinha ao tamanho de
 cada depoimento.
 
-Hoje estao no ar tres depoimentos, nesta ordem: Jaque, Marcus e o
-terceiro aluno (o do acidente de moto). As setinhas e as barrinhas
-aparecem sozinhas sempre que existir mais de um depoimento.
-
-FALTA: o nome do terceiro aluno. Enquanto o Pedro nao passa, o card
-mostra so "Aluno". Procure por "TROCAR" no index.html para achar.
+Hoje estao no ar tres depoimentos, nesta ordem: Jaque, Marcus e Bruce.
+As setinhas e as barrinhas aparecem sozinhas sempre que existir mais
+de um depoimento.
 
 Para trocar a ordem, basta trocar os blocos <article class="vcard">
 de lugar dentro do index.html. O primeiro e o que aparece na abertura

@@ -59,63 +59,74 @@ document.querySelectorAll("[data-count]").forEach(el=>cUp.observe(el));
 /* ==========================================================
    SILHUETAS
    Seis corpos desenhados em SVG, sem depender de foto nenhuma.
-   Todos saem do mesmo molde, mudando quatro medidas:
-     s   meia-largura do ombro
-     w   meia-largura da cintura
-     b   espessura do braco
-     bel quanto a barriga avanca (0 = reta)
-   Para deixar um corpo mais largo ou mais seco, mexa so nos numeros
-   da tabela CORPOS. Nao precisa mexer no desenho.
+   Todos saem do mesmo molde, mudando sete medidas por corpo. Para
+   deixar um corpo mais largo ou mais seco, mexa so nos numeros da
+   tabela CORPOS, que o desenho se ajusta sozinho.
    ========================================================== */
 const CORPOS={
-  magro:     {s:14,w:9, b:5, bel:0},
-  medio:     {s:16,w:13,b:6, bel:1.5},
-  acima:     {s:17,w:18,b:7, bel:4},
-  forma:     {s:19,w:10,b:7, bel:0},
-  musculoso: {s:23,w:10,b:9, bel:0},
-  muito:     {s:27,w:11,b:11,bel:0}
+  magro:     {omb:14,  pei:13, cin:10.5, qua:12.5, bra:3.9, per:6.9,  bar:0},
+  medio:     {omb:16.5,pei:16, cin:15,   qua:16.5, bra:5.2, per:8.8,  bar:2},
+  acima:     {omb:19,  pei:20, cin:22,   qua:21,   bra:7.0, per:11.3, bar:6},
+  forma:     {omb:20,  pei:18, cin:12,   qua:15,   bra:5.6, per:9.3,  bar:0},
+  musculoso: {omb:25,  pei:22, cin:13,   qua:16.5, bra:7.8, per:11.3, bar:0},
+  muito:     {omb:30,  pei:26, cin:14,   qua:17.5, bra:9.2, per:13.1, bar:0}
 };
-
-let siSeq=0;
+let seq=0;
 function silhueta(chave){
-  const c=CORPOS[chave];
-  if(!c) return "";
-  const {s,w,b,bel}=c, q=50, id="sil"+(++siSeq);
-  return '<svg viewBox="0 0 100 168" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'+
+  const c=CORPOS[chave]; if(!c) return "";
+  const {omb,pei,cin,qua,bra,per,bar}=c, id="si"+(++seq);
+  const OMBRO=34, PEITO=48, CINT=72, QUAD=88, VIRI=96, MAO=102, PE=166;
+  const ref=Math.max(pei,cin,qua);
+  const x=(s,v)=>(50+s*v).toFixed(2);
+
+  const tronco=
+    'M'+x(-1,omb)+','+OMBRO+
+    ' C'+x(-1,omb-0.5)+',29 '+x(-1,omb*0.45)+',26 '+x(-1,5.2)+',23'+
+    ' L'+x(1,5.2)+',23'+
+    ' C'+x(1,omb*0.45)+',26 '+x(1,omb-0.5)+',29 '+x(1,omb)+','+OMBRO+
+    ' C'+x(1,pei)+','+PEITO+' '+x(1,cin+bar)+','+(CINT-10)+' '+x(1,cin)+','+CINT+
+    ' C'+x(1,cin+bar*0.5)+','+(CINT+6)+' '+x(1,qua)+','+(QUAD-6)+' '+x(1,qua)+','+QUAD+
+    ' L'+x(-1,qua)+','+QUAD+
+    ' C'+x(-1,qua)+','+(QUAD-6)+' '+x(-1,cin+bar*0.5)+','+(CINT+6)+' '+x(-1,cin)+','+CINT+
+    ' C'+x(-1,cin+bar)+','+(CINT-10)+' '+x(-1,pei)+','+PEITO+' '+x(-1,omb)+','+OMBRO+' Z';
+
+  /* O braco desce em DIAGONAL, afastando do corpo. Com o braco colado a
+     cintura fica escondida atras dele e todos os corpos viram um bloco so.
+     O vao triangular entre braco e cintura e o que da leitura a silhueta. */
+  const braco=(s)=>{
+    const oCima=omb+bra*0.35, iCima=omb-bra*0.75,
+          oBaixo=ref+bra*1.55, iBaixo=ref+bra*0.55;
+    return 'M'+x(s,iCima)+','+(OMBRO-2)+
+      ' L'+x(s,oCima)+','+(OMBRO-1)+
+      ' C'+x(s,oCima+bra*0.5)+','+(OMBRO+16)+' '+x(s,oBaixo-bra*0.2)+','+(MAO-30)+' '+x(s,oBaixo)+','+(MAO-6)+
+      ' Q'+x(s,oBaixo+0.3)+','+(MAO+2)+' '+x(s,(oBaixo+iBaixo)/2)+','+(MAO+2)+
+      ' Q'+x(s,iBaixo-0.3)+','+(MAO+2)+' '+x(s,iBaixo)+','+(MAO-6)+
+      ' C'+x(s,iBaixo-bra*0.25)+','+(MAO-30)+' '+x(s,iCima+bra*0.35)+','+(OMBRO+16)+' '+x(s,iCima)+','+(OMBRO-2)+' Z';
+  };
+
+  const perna=(s)=>{
+    const qo=qua, qi=2.8, ao=per*0.90, ai=per*0.28, TOPO=QUAD-8;
+    return 'M'+x(s,qo)+','+TOPO+
+      ' C'+x(s,qo+0.4)+',114 '+x(s,ao+1.6)+',144 '+x(s,ao)+','+(PE-4)+
+      ' Q'+x(s,ao)+','+(PE+1)+' '+x(s,(ao+ai)/2)+','+(PE+1)+
+      ' Q'+x(s,ai)+','+(PE+1)+' '+x(s,ai)+','+(PE-4)+
+      ' C'+x(s,ai+0.7)+',144 '+x(s,qi+2)+',112 '+x(s,qi)+','+VIRI+' Z';
+  };
+
+  return '<svg viewBox="0 0 100 176" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">'+
     '<defs><linearGradient id="'+id+'" x1="0" y1="0" x2="0" y2="1">'+
     '<stop offset="0%" stop-color="#C4B5FD"/><stop offset="100%" stop-color="#7C3AED"/>'+
     '</linearGradient></defs><g fill="url(#'+id+')">'+
-    '<circle cx="'+q+'" cy="18" r="11"/>'+
-    '<path d="M'+(q-6)+',30 L'+(q+6)+',30'+
-      ' C'+(q+s*0.5)+',31 '+(q+s)+',34 '+(q+s)+',44'+
-      ' L'+(q+s+b)+',50'+
-      ' C'+(q+s+b+1)+',64 '+(q+s+b-1)+',78 '+(q+s+b-3)+',88'+
-      ' L'+(q+s+b-8)+',88'+
-      ' C'+(q+s+b-7)+',78 '+(q+s+b-6)+',64 '+(q+s-2)+',56'+
-      ' C'+(q+w+bel)+',70 '+(q+w+bel)+',82 '+(q+w)+',92'+
-      ' L'+(q+w+2)+',104 L'+(q+w)+',140 L'+(q+w-1)+',162 L'+(q+3.5)+',162'+
-      ' L'+(q+2.5)+',128 L'+q+',116'+
-      ' L'+(q-2.5)+',128 L'+(q-3.5)+',162 L'+(q-w+1)+',162 L'+(q-w)+',140'+
-      ' L'+(q-w-2)+',104 L'+(q-w)+',92'+
-      ' C'+(q-w-bel)+',82 '+(q-w-bel)+',70 '+(q-s+2)+',56'+
-      ' C'+(q-s-b+6)+',64 '+(q-s-b+7)+',78 '+(q-s-b+8)+',88'+
-      ' L'+(q-s-b+3)+',88'+
-      ' C'+(q-s-b+1)+',78 '+(q-s-b-1)+',64 '+(q-s-b)+',50'+
-      ' L'+(q-s)+',44'+
-      ' C'+(q-s)+',34 '+(q-s*0.5)+',31 '+(q-6)+',30 Z"/>'+
+    '<circle cx="50" cy="13.5" r="10"/>'+
+    '<path d="'+perna(-1)+'"/><path d="'+perna(1)+'"/>'+
+    '<path d="'+tronco+'"/>'+
+    '<path d="'+braco(-1)+'"/><path d="'+braco(1)+'"/>'+
     '</g></svg>';
 }
 /* desenha em todo elemento que pedir um corpo pelo atributo */
 document.querySelectorAll("[data-corpo]").forEach(el=>{ el.innerHTML=silhueta(el.dataset.corpo); });
 
 
-/* ==========================================================
-   PERFIL
-   O que a pessoa respondeu. Fica guardado no navegador dela para a
-   pagina continuar personalizada numa proxima visita. Nada e enviado
-   para lugar nenhum, e por isso a pagina nao precisa de aviso de
-   cookies.
-   ========================================================== */
 /* ==========================================================
    MEDICAO
    Sem isto nao da para saber se o funil funciona: quantos comecam a
@@ -133,6 +144,13 @@ const medir=(evento,dados)=>{
   }catch(err){}
 };
 
+/* ==========================================================
+   PERFIL
+   O que a pessoa respondeu. Fica guardado no navegador dela para a
+   pagina continuar personalizada numa proxima visita. Nada e enviado
+   para lugar nenhum, e por isso a pagina nao precisa de aviso de
+   cookies.
+   ========================================================== */
 const Perfil=(function(){
   const CHAVE="pa.diagnostico";
   /* aba anonima pode recusar o armazenamento: sem o try a pagina quebraria */

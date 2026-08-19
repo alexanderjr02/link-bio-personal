@@ -43,6 +43,12 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--voi
 .hero-top img{width:120px;height:auto;filter:drop-shadow(0 6px 18px rgba(0,0,0,.6))}
 .hero-content{position:relative;z-index:2;text-align:center;padding:0 20px}
 .hero-content .eyebrow{opacity:0;animation:rise .7s ease .35s forwards}
+/* selo do registro profissional, logo abaixo do chapeu da hero */
+.hero-cref{display:inline-flex;align-items:center;gap:6px;margin-top:11px;padding:5px 12px;
+  border-radius:999px;font-size:10.5px;font-weight:700;letter-spacing:.13em;color:#EDE9FE;
+  background:rgba(124,58,237,.18);border:1px solid rgba(167,139,250,.38);backdrop-filter:blur(6px);
+  text-shadow:0 1px 6px rgba(0,0,0,.5);opacity:0;animation:rise .7s ease .44s forwards}
+.hero-cref svg{color:var(--glow);flex:0 0 auto}
 .h-title{font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;line-height:.94;margin-top:14px}
 .h-title .small{display:block;font-size:clamp(15px,4.4vw,20px);letter-spacing:.04em;color:var(--white);
   opacity:0;animation:rise .7s ease .5s forwards}

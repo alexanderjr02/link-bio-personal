@@ -1,0 +1,22 @@
+{
+  // Contador do funil. Fica separado do site: o site e so HTML estatico
+  // no Pages, e este Worker existe so pra somar os eventos.
+  //
+  // Publicar:  cd metricas && npx wrangler deploy
+  // O segredo do relatorio nao fica aqui, e um secret do Worker:
+  //            npx wrangler secret put SEGREDO
+  "name": "pedro-metricas",
+  "main": "src/index.js",
+  "compatibility_date": "2026-08-01",
+  // Roda no proprio dominio, em /_m/*. Assim nao existe chamada pra fora
+  // (nada de CORS) e o relatorio fica no endereco do Pedro. Todo o resto
+  // do site continua sendo servido pelo Pages normalmente.
+  "workers_dev": false,
+  "routes": [
+    { "pattern": "pedroaugustopersonal.com.br/_m/*", "zone_name": "pedroaugustopersonal.com.br" }
+  ],
+  "kv_namespaces": [
+    { "binding": "METRICAS", "id": "0b7d23e8e89440f080f73de15670fd31" }
+  ],
+  "observability": { "enabled": true }
+}

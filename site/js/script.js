@@ -138,6 +138,15 @@ document.querySelectorAll("[data-corpo]").forEach(el=>{ el.innerHTML=silhueta(el
    ========================================================== */
 const medir=(evento,dados)=>{
   try{
+    /* contador proprio, no mesmo dominio. So a contagem do evento vai
+       embora: nada de IP, nome ou cookie. sendBeacon porque o clique no
+       verde sai da pagina, e um fetch normal seria cortado no meio. */
+    const corpo=JSON.stringify({ev:evento});
+    if(navigator.sendBeacon) navigator.sendBeacon("/_m/e",new Blob([corpo],{type:"text/plain"}));
+    else fetch("/_m/e",{method:"POST",body:corpo,keepalive:true});
+  }catch(err){}
+  try{
+    /* se um dia ligarem Zaraz, GA ou Pixel, os mesmos eventos chegam la */
     if(window.zaraz&&window.zaraz.track) window.zaraz.track(evento,dados||{});
     if(window.gtag) window.gtag("event",evento,dados||{});
     if(window.fbq) window.fbq("trackCustom",evento,dados||{});

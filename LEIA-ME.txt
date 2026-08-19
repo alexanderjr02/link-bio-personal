@@ -40,39 +40,74 @@ Ja resolvidos, com informacao que ele passou:
    "nas academias do Gama" em vez de citar um endereco fixo.
 
 ===============================
-COMO SABER SE O FUNIL FUNCIONA
+O RELATORIO DO FUNIL
 ===============================
-A pagina avisa cada etapa do diagnostico para quem estiver ouvindo,
-mas NAO existe ferramenta ligada ainda. Enquanto nao ligar, ninguem
-sabe quantas pessoas comecam nem onde elas desistem.
+JA ESTA FUNCIONANDO. O endereco e secreto, nao esta linkado em lugar
+nenhum e nao aparece no Google:
 
-Para ligar de graca, sem instalar nada e sem aviso de cookies:
-  painel do Cloudflare -> dominio pedroaugustopersonal.com.br
-  -> secao Zaraz -> ativar
+  https://pedroaugustopersonal.com.br/_m/r/VADHYHRmV5E8
 
-A partir dai chegam estes eventos, nesta ordem:
-  quiz_p1, quiz_p2, quiz_p3, quiz_p4   uma por pergunta respondida
-  quiz_retomado                        voltou e continuou de onde parou
-  quiz_resultado                       chegou na tela final
-  whatsapp                             clicou num botao verde
+Ele mostra, de cada pessoa que toca numa silhueta, quantas chegam no
+WhatsApp, e marca em laranja o degrau onde mais gente desiste. Tem
+tambem os ultimos 14 dias, dia a dia.
 
-A conta que interessa: de cada 100 que respondem quiz_p1, quantas
-chegam em quiz_resultado, e quantas dessas clicam em whatsapp. O ponto
-onde o numero despenca e o que precisa ser consertado.
+COMO FUNCIONA
+Quem conta e um Worker do proprio Cloudflare, na pasta metricas/, que
+responde em /_m/*. Guarda SO a contagem do evento: nada de IP, nome,
+nem cookie. E por isso que o site nao precisa de aviso de consentimento.
+
+Nao foi usado Google Analytics nem Zaraz de proposito. Alem de nao
+precisar, os dois trazem discussao de LGPD que nesse volume nao paga
+o preco.
+
+Para publicar uma mudanca no contador:
+  cd metricas && npx wrangler deploy
+
+Se precisar trocar o endereco secreto:
+  cd metricas && npx wrangler secret put SEGREDO
+
+OS EVENTOS
+  quiz_p1 ate quiz_p4   uma por pergunta respondida
+  quiz_resultado        chegou na tela final
+  quiz_retomado         voltou e continuou de onde parou
+  whatsapp              clicou num botao verde
 
 AVISO SOBRE OS NUMEROS: com pouco trafego eles servem de indicacao, nao
 de prova. Separar 8% de 11% de conversao exige milhares de visitas. Com
 100 visitas por mes, trate como pista e confie mais no que o Pedro
 sentir na qualidade das conversas.
 
+O QUE O RELATORIO NAO MOSTRA
+De onde a pessoa veio (Instagram, Google, direto) e quantas visitas o
+site teve no total. Isso e o Cloudflare Web Analytics, que e gratis,
+sem cookie, e se liga em tres cliques:
+  painel -> Analytics & Logs -> Web Analytics -> adicionar o site,
+  na opcao automatica (ele injeta o script sozinho, sem mexer no codigo)
+
 ===============================
 O QUE TEM NESTA PASTA
 ===============================
-index.html    A estrutura da pagina.
-css/styles.css   O visual (cores, layout, animacoes).
-js/script.js     Os comportamentos (diagnostico, carrosseis, FAQ).
-img/             As fotos e a logo.
-_headers         Cache e seguranca do Cloudflare.
+So o que esta dentro de site/ vai pro ar. O resto e bastidor e nao
+fica publico. Foi por isso que a pasta site/ existe: antes o LEIA-ME
+estava aberto na internet, e ele fala de preco de rascunho e de
+promessa nao confirmada.
+
+site/index.html      A estrutura da pagina.
+site/css/styles.css  O visual (cores, layout, animacoes).
+site/js/script.js    Os comportamentos (diagnostico, carrosseis, FAQ).
+site/img/            As fotos e a logo.
+site/_headers        Cache e seguranca do Cloudflare.
+site/404.html        Pagina de endereco inexistente.
+
+metricas/            O contador do funil (Worker). Nao e site.
+LEIA-ME.txt          Este arquivo.
+
+AO TROCAR O CSS OU O JS, MUDE O ?v= NO index.html
+No fim das duas linhas que carregam styles.css e script.js existe um
+?v=20260819a. O dominio esta com cache de 4 horas no navegador, entao
+sem trocar esse numero quem ja visitou continua vendo a versao velha.
+Mudou o numero, mudou o endereco, e o navegador baixa na hora.
+Pode ser qualquer coisa: a data do dia ja serve.
 
 ===============================
 ONDE O SITE ESTA NO AR
@@ -87,9 +122,10 @@ e renovado todo ano. O Cloudflare so cuida do DNS e da hospedagem. Um
 .com.br nao pode ser transferido para o Cloudflare como registrador.
 
 COMO ATUALIZAR O SITE
-Dentro da pasta do projeto:
+Dentro da pasta do projeto (repare no "site" no fim, e nao um ponto:
+e ele que garante que o bastidor nao va junto):
 
-  npx wrangler pages deploy . --project-name=pedro-augusto --branch=main
+  npx wrangler pages deploy site --project-name=pedro-augusto --branch=main
 
 Em poucos segundos esta no ar. Enviar para o GitHub apenas guarda o
 codigo, nao publica nada sozinho.

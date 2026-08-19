@@ -34,10 +34,10 @@ tenha dito.
 
 Ja resolvidos, com informacao que ele passou:
    - CREF 012500 G/DF, no rodape e na ficha do Google
-   - atende presencial no Gama e regiao, no DF. Aparece no rodape, no
+   - atende presencial nas academias do Gama, no DF. Aparece no rodape, no
      card do plano Presencial e na descricao que o Google mostra.
-   CONFIRME COM ELE se "Gama e regiao" e a forma certa de dizer, ou se
-   ele prefere citar a academia onde atende.
+   Ele atende em academias variadas do Gama, entao a pagina fala em
+   "nas academias do Gama" em vez de citar um endereco fixo.
 
 ===============================
 COMO SABER SE O FUNIL FUNCIONA
@@ -77,9 +77,9 @@ _headers         Cache e seguranca do Cloudflare.
 ===============================
 ONDE O SITE ESTA NO AR
 ===============================
-Endereco provisorio: https://pedro-augusto.pages.dev
+Endereco provisorio: https://pedro-augusto.pages.dev   FUNCIONANDO
 Endereco final:      https://pedroaugustopersonal.com.br
-                     (falta apontar o DNS, veja abaixo)
+                     AINDA NAO ABRE, falta 1 passo (veja abaixo)
 
 Hospedagem: Cloudflare Pages, projeto "pedro-augusto", plano gratuito.
 Dominio: registrado no registro.br, que continua sendo onde ele e pago
@@ -99,12 +99,31 @@ No painel, em Workers & Pages, abra o projeto na aba Deployments,
 escolha a versao antiga e clique em Rollback.
 
 O QUE FALTA PARA O DOMINIO PROPRIO
-1. No Cloudflare, "Add a site" e cadastrar pedroaugustopersonal.com.br
-   no plano Free. Ele devolve dois servidores ns.cloudflare.com.
-2. No registro.br, trocar os servidores DNS atuais (a.auto.dns.br e
-   b.auto.dns.br) pelos dois do Cloudflare.
-3. No projeto pedro-augusto, aba Custom domains, adicionar o dominio.
-O certificado de seguranca sai sozinho depois disso.
+JA FEITO:
+  - dominio cadastrado no Cloudflare, zona ATIVA
+  - registro.br apontando para alexis.ns e nelly.ns.cloudflare.com,
+    ja propagado pelo mundo
+  - dominio e www adicionados ao projeto pedro-augusto
+
+FALTA SO ISTO, e precisa ser feito no painel porque exige permissao de
+escrita em DNS, que a linha de comando nao tem:
+
+  painel do Cloudflare -> pedroaugustopersonal.com.br -> DNS
+  -> Add record, DUAS VEZES:
+
+    Type: CNAME   Name: @      Target: pedro-augusto.pages.dev   Proxy: LIGADO
+    Type: CNAME   Name: www    Target: pedro-augusto.pages.dev   Proxy: LIGADO
+
+O Proxy (nuvem laranja) tem que ficar LIGADO nos dois. E ele que permite
+um CNAME na raiz do dominio, o que o DNS normalmente nao aceita.
+
+Depois disso o certificado de seguranca sai sozinho, em ate 15 minutos,
+e o site passa a abrir no dominio.
+
+POR QUE ISSO NAO ACONTECEU SOZINHO: o dominio foi ligado ao projeto
+enquanto a zona ainda estava pendente, esperando a propagacao. Quando a
+zona ativou, o Cloudflare nao voltou para concluir, e os dois dominios
+ficaram parados em "pending" sem nunca criar o registro.
 
 ===============================
 CUIDADO AO EDITAR OS ARQUIVOS
@@ -137,15 +156,16 @@ costumam bloquear a abertura de outros aplicativos.
 ===============================
 O QUE TEM NA PAGINA
 ===============================
-1. Abertura: "Chega de recomecar toda segunda"
+1. Abertura: "Especialista em" com a palavra que troca sozinha
 2. Autoridade: atleta de palco, formacao e numeros
 3. A PRIMEIRA PERGUNTA DO DIAGNOSTICO, ali na pagina
-4. Transformacoes reais, em carrossel, com tarja de contexto
+4. Transformacoes reais, em carrossel
 5. Depoimentos, em carrossel de cards empilhados
-6. Planos: Essencial, Premium e Presencial, com garantia
+6. Planos: Essencial, Premium e Presencial
 7. Regras do jogo: pra quem o trabalho nao serve
 8. Duvidas frequentes
-9. Chamada final, guia gratuito e botao flutuante
+9. Chamada final e botao flutuante
+10. Rodape com CREF e onde ele atende
 
 ===============================
 COMO O DIAGNOSTICO FUNCIONA

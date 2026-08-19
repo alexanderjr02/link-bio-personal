@@ -28,10 +28,12 @@
 <div class="bg-grain"></div>
 <div class="progress" id="prog"></div>
 
-<!-- Barra de retomada: so aparece para quem ja fez o diagnostico numa
-     visita anterior. O texto e montado pelo js/script.js. -->
+<!-- Barra de retomada. Aparece em dois casos, e o js/script.js escreve o
+     texto e o botao conforme o caso:
+       terminou o diagnostico numa visita anterior -> atalho pro plano
+       parou no meio -> volta de onde parou, sem refazer o que ja respondeu -->
 <div class="resume" id="resume" hidden>
-  <span class="rz-tx">Você parou em <b id="rzPerfil"></b></span>
+  <span class="rz-tx" id="rzTx"></span>
   <button class="rz-go" id="rzGo" type="button">Ver meu plano</button>
   <button class="rz-x" id="rzX" type="button" aria-label="Dispensar">
     <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>
@@ -136,11 +138,11 @@
   </div>
   <div class="tvp reveal d1">
     <div class="tcar" id="tcar">
-      <article class="tcard" data-meta="8 meses|Online|4x por semana"><div class="ba"><span class="chip chip-b">Antes</span><span class="chip chip-a">Depois</span><img src="img/transformacao-1.jpg" alt="Transformação de aluno, antes e depois" loading="lazy"></div></article>
-      <article class="tcard" data-meta="6 meses|Presencial|5x por semana"><div class="ba"><span class="chip chip-b">Antes</span><span class="chip chip-a">Depois</span><img src="img/transformacao-3.jpg" alt="Transformação de aluna, antes e depois" loading="lazy"></div></article>
-      <article class="tcard" data-meta="1 ano|Online|4x por semana"><div class="ba"><span class="chip chip-b">Antes</span><span class="chip chip-a">Depois</span><img src="img/transformacao-4.jpg" alt="Transformação de aluno, antes e depois" loading="lazy"></div></article>
-      <article class="tcard" data-meta="10 meses|Presencial|3x por semana"><div class="ba"><span class="chip chip-b">Antes</span><span class="chip chip-a">Depois</span><img src="img/transformacao-5.jpg" alt="Transformação de aluna, antes e depois" loading="lazy"></div></article>
-      <article class="tcard" data-meta="7 meses|Online|5x por semana"><div class="ba"><span class="chip chip-b">Antes</span><span class="chip chip-a">Depois</span><img src="img/transformacao-6.jpg" alt="Transformação de aluna, antes e depois" loading="lazy"></div></article>
+      <article class="tcard"><div class="ba"><span class="chip chip-b">Antes</span><span class="chip chip-a">Depois</span><img src="img/transformacao-1.jpg" alt="Transformação de aluno, antes e depois" loading="lazy"></div></article>
+      <article class="tcard"><div class="ba"><span class="chip chip-b">Antes</span><span class="chip chip-a">Depois</span><img src="img/transformacao-3.jpg" alt="Transformação de aluna, antes e depois" loading="lazy"></div></article>
+      <article class="tcard"><div class="ba"><span class="chip chip-b">Antes</span><span class="chip chip-a">Depois</span><img src="img/transformacao-4.jpg" alt="Transformação de aluno, antes e depois" loading="lazy"></div></article>
+      <article class="tcard"><div class="ba"><span class="chip chip-b">Antes</span><span class="chip chip-a">Depois</span><img src="img/transformacao-5.jpg" alt="Transformação de aluna, antes e depois" loading="lazy"></div></article>
+      <article class="tcard"><div class="ba"><span class="chip chip-b">Antes</span><span class="chip chip-a">Depois</span><img src="img/transformacao-6.jpg" alt="Transformação de aluna, antes e depois" loading="lazy"></div></article>
     </div>
   </div>
   <div class="wrap">
@@ -289,7 +291,10 @@
         <span class="plan-fmt">Online</span>
         <h3>Essencial</h3>
         <p class="who">Você já treina firme. Só falta o plano certo.</p>
-        <div class="price"><b>R$ 149</b><em>/mês</em></div>
+        <!-- PRECO: os R$ 149 que estavam aqui eram rascunho, nao valor do
+             Pedro, entao sairam do ar. Assim que ele confirmar, troque por
+             <b>R$ 000</b><em>/mês</em> -->
+        <div class="price"><b>Sob consulta</b></div>
         <ul>
           <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Treino montado do zero pra você</li>
           <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>App com vídeo de cada exercício</li>
@@ -305,7 +310,8 @@
         <span class="plan-fmt">Online</span>
         <h3>Premium</h3>
         <p class="who">Você já tentou sozinho. Dessa vez tem alguém puxando.</p>
-        <div class="price"><b>R$ 249</b><em>/mês</em></div>
+        <!-- PRECO: mesma coisa. Os R$ 249 eram rascunho. -->
+        <div class="price"><b>Sob consulta</b></div>
         <ul>
           <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Tudo do Essencial</li>
           <li><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>Ajuste toda semana</li>
@@ -336,12 +342,15 @@
       </div>
     </div>
 
-    <!-- Esta garantia e uma promessa em nome do Pedro. Confirme com ele
-         antes de publicar; se ele nao topar, apague o bloco. -->
+    <!-- GARANTIA FORA DO AR ATE O PEDRO CONFIRMAR.
+         E uma promessa em nome dele que ele nunca fez, entao nao pode
+         ficar publicada. Se ele topar, basta apagar as duas linhas de
+         comentario (esta e a de baixo) que o bloco volta.
     <div class="guard reveal d2">
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M12 3l7.5 3v5.5c0 4.4-3.1 8.2-7.5 9.5-4.4-1.3-7.5-5.1-7.5-9.5V6z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg>
       <span><b>Primeira semana de ajuste.</b> Se o treino não couber na sua rotina, eu refaço sem cobrar nada.</span>
     </div>
+    -->
   </div>
 </section>
 
@@ -416,6 +425,11 @@
       <div class="rea"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>Respondo rápido, sem compromisso</div>
     </div>
 
+    <!-- GUIA DOS 5 ERROS FORA DO AR ATE O MATERIAL EXISTIR.
+         Estava mandando a pessoa pedir no WhatsApp um guia que nao foi
+         escrito: quem pedisse ficaria sem resposta, e logo no publico
+         mais frio da pagina. Quando o Pedro tiver o material, apague as
+         duas linhas de comentario que o bloco volta.
     <div class="fallback reveal d1" id="fallback">
       <span>Ainda não é a hora?</span>
       <a class="wa-link" href="https://wa.me/5561991826565?text=Oi%20Pedro%21%20Quero%20o%20guia%20dos%205%20erros." target="_blank" rel="noopener">
@@ -423,6 +437,7 @@
         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
       </a>
     </div>
+    -->
   </div>
 </section>
 
@@ -447,7 +462,8 @@
 
 <!-- ============ DIAGNOSTICO EM TELA CHEIA ============
      Uma pergunta por tela, sem rolagem, no modelo dos funis de quiz.
-     Abre por qualquer botao com a classe .qz-abrir.
+     A unica porta de entrada e tocar numa silhueta da secao
+     #diagnostico, la em cima: quem toca ja respondeu a pergunta 1.
 
      As perguntas 1 e 2 sao o coracao da coisa: a pessoa aponta o corpo
      que tem e o corpo que quer, e o intervalo entre os dois define o

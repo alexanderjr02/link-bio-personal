@@ -116,12 +116,51 @@ document.querySelectorAll("[data-corpo]").forEach(el=>{ el.innerHTML=silhueta(el
    para lugar nenhum, e por isso a pagina nao precisa de aviso de
    cookies.
    ========================================================== */
+/* ==========================================================
+   MEDICAO
+   Sem isto nao da para saber se o funil funciona: quantos comecam a
+   pergunta 1, onde as pessoas somem, quantos chegam a clicar no verde.
+   Nao instala ferramenta nenhuma nem cria cookie. So avisa a que ja
+   estiver ligada. Para ativar de graca: painel do Cloudflare, dominio
+   pedroaugustopersonal.com.br, secao Zaraz. Sem nada ligado, esta
+   funcao nao faz nada e nao quebra nada.
+   ========================================================== */
+const medir=(evento,dados)=>{
+  try{
+    if(window.zaraz&&window.zaraz.track) window.zaraz.track(evento,dados||{});
+    if(window.gtag) window.gtag("event",evento,dados||{});
+    if(window.fbq) window.fbq("trackCustom",evento,dados||{});
+  }catch(err){}
+};
+
 const Perfil=(function(){
   const CHAVE="pa.diagnostico";
   /* aba anonima pode recusar o armazenamento: sem o try a pagina quebraria */
   const ler=()=>{ try{ return JSON.parse(localStorage.getItem(CHAVE)||"null"); }catch(e){ return null; } };
   const gravar=(p)=>{ try{ localStorage.setItem(CHAVE,JSON.stringify(p)); }catch(e){} };
   return {ler,gravar};
+})();
+
+/* Respostas de quem comecou e nao terminou.
+   Quem parou na pergunta 3 ja respondeu duas coisas sobre o proprio
+   corpo: e a pessoa mais interessada que passa pela pagina, e ate
+   agora sumia sem deixar nada. Guardando o meio do caminho, ela volta
+   de onde parou em vez de recomecar. Some depois de 7 dias, porque
+   quem volta um mes depois esta noutro momento. */
+const Parcial=(function(){
+  const CHAVE="pa.parcial", VALIDADE=7*24*60*60*1000;
+  const ler=()=>{
+    try{
+      const p=JSON.parse(localStorage.getItem(CHAVE)||"null");
+      if(!p||!p.quando||Date.now()-p.quando>VALIDADE) return null;
+      return p;
+    }catch(e){ return null; }
+  };
+  const gravar=(resp,passo)=>{ try{
+    localStorage.setItem(CHAVE,JSON.stringify({resp:resp,passo:passo,quando:Date.now()}));
+  }catch(e){} };
+  const limpar=()=>{ try{ localStorage.removeItem(CHAVE); }catch(e){} };
+  return {ler,gravar,limpar};
 })();
 
 
@@ -133,9 +172,13 @@ const Perfil=(function(){
    ficar musculoso e hipertrofia, e assim por diante.
    ========================================================== */
 const PERFIL_POR_GAP={
-  magro:{ forma:"massa",    musculoso:"massa",    muito:"palco" },
-  medio:{ forma:"estetica", musculoso:"massa",    muito:"palco" },
-  acima:{ forma:"gordura",  musculoso:"gordura",  muito:"gordura" }
+  magro:{ forma:"massa",    musculoso:"massa",       muito:"palco" },
+  medio:{ forma:"estetica", musculoso:"massa",       muito:"palco" },
+  /* quem esta acima do peso e quer ficar musculoso NAO e o mesmo caso de
+     quem so quer emagrecer: e recomposicao, tem historia e prazo proprios.
+     Antes os tres destinos caiam todos em "gordura" e um terco das
+     pessoas recebia um diagnostico que nao era bem o delas. */
+  acima:{ forma:"gordura",  musculoso:"recomposicao", muito:"recomposicao" }
 };
 
 /* o tamanho do salto define o prazo mostrado na linha do tempo.
@@ -177,6 +220,15 @@ const PERFIS={
       [null,"O acabamento que aparece de camiseta e sem ela."]
     ]
   },
+  recomposicao:{
+    chip:"Trocar gordura por músculo",
+    custo:"Dá pra secar e ganhar músculo ao mesmo tempo. O que não dá é fazer os dois no chute.",
+    linha:[
+      ["Semana 1 a 3","A gente decide o que vem primeiro. Tentar tudo junto no escuro é o que trava a maioria."],
+      ["Mês 2","A balança quase não mexe e a roupa muda. É o sinal de que está funcionando."],
+      [null,"Menos gordura e mais músculo. É o caminho mais longo e o que mais muda a foto."]
+    ]
+  },
   palco:{
     chip:"Rumo ao palco",
     custo:"Palco tem data. Preparação sem calendário vira temporada perdida.",
@@ -188,12 +240,26 @@ const PERFIS={
   }
 };
 
+/* O primeiro marco da linha do tempo passa a falar do PONTO DE PARTIDA,
+   nao do objetivo. E nele que a pessoa decide se aquilo e crivel pra ela,
+   e quem volta de lesao nao pode ler a mesma frase de quem nunca treinou.
+   Os marcos 2 e 3 continuam vindo do perfil. */
+const PRIMEIRO_MARCO={
+  nunca:"A primeira semana é aprender a executar. Carga entra depois, e entra sozinha quando o movimento está certo.",
+  semplano:"Nada de recomeçar do zero. Eu pego o que você já faz e ponho numa ordem que progride.",
+  travado:"Primeiro a gente acha onde travou. Quase sempre é volume ou frequência, não força de vontade.",
+  lesao:"Começamos pelo que a lesão permite e ampliamos a partir dali. Sem pular etapa e sem treinar com medo."
+};
+
 const VEREDITO={
   nunca:"Você não está atrasado. Está sem método, que é outra coisa e tem conserto.",
   semplano:"Esforço você já tem. Falta ordem, e ordem se resolve na primeira semana.",
   travado:"Você não travou por falta de esforço. Travou por falta de progressão com critério.",
   lesao:"Seu caso não é treinar mais. É treinar na ordem certa, e isso é decisão técnica."
 };
+
+/* nome de vitrine de cada plano, usado na mensagem que vai pro WhatsApp */
+const NOME_PLANO={essencial:"Essencial", premium:"Premium", presencial:"Presencial"};
 
 /* qual plano faz sentido para cada resposta, e o motivo que a pessoa le */
 const recomendar=(p)=>{
@@ -292,6 +358,9 @@ const aplicarPerfil=(p)=>{
 
   let resp={}, atual=0, focoAnterior=null;
 
+  /* guarda o meio do caminho a cada resposta, para poder retomar depois */
+  const guardarParcial=()=>Parcial.gravar(resp,Math.min(atual+1,total-1));
+
   for(let i=0;i<total;i++) trilho.appendChild(document.createElement("i"));
   const barras=[...trilho.children];
 
@@ -337,24 +406,37 @@ const aplicarPerfil=(p)=>{
     document.getElementById("qfCost").textContent=d.custo;
 
     linha.textContent="";
-    d.linha.forEach(([quando,oque])=>{
+    d.linha.forEach(([quando,oque],i)=>{
       const li=document.createElement("li"),
             w=document.createElement("span"),
             t=document.createElement("span");
       w.className="tw"; w.textContent=quando||p.salto.marco;
-      t.className="tt"; t.textContent=oque;
+      t.className="tt";
+      t.textContent=(i===0&&PRIMEIRO_MARCO[p.tentou])?PRIMEIRO_MARCO[p.tentou]:oque;
       li.appendChild(w); li.appendChild(t); linha.appendChild(li);
     });
 
+    /* A mensagem leva as respostas E o que a pagina concluiu delas.
+       O Pedro abre a conversa ja sabendo o perfil, o prazo realista e
+       qual plano a pessoa viu destacado: e com isso que ele decide o
+       preco que fala e a primeira frase que escreve. */
+    const rec=recomendar(p);
     document.getElementById("qfCta").href=waLink(
       "Oi Pedro! Fiz o diagnóstico no site.\n\n"+
       "Hoje: "+resp.hojeTx+"\n"+
       "Quero chegar em: "+resp.metaTx+"\n"+
       "Já tentei: "+resp.tentouTx+"\n"+
       "Quero treinar: "+resp.ondeTx+"\n\n"+
+      "— o que a página me mostrou —\n"+
+      "Perfil: "+d.chip+"\n"+
+      "Salto: "+p.salto.nome+", "+p.salto.prazo+"\n"+
+      "Plano sugerido: "+NOME_PLANO[rec.plano]+"\n\n"+
       "Me diz como funciona?");
 
+    medir("quiz_resultado",{perfil:p.chave,salto:p.salto.nome,plano:rec.plano});
+
     Perfil.gravar(p);
+    Parcial.limpar();                 /* terminou: nao ha mais o que retomar */
     aplicarPerfil(p);
 
     /* a isca some para quem acabou de responder: pessoa quente nao
@@ -376,9 +458,10 @@ const aplicarPerfil=(p)=>{
     const chave=opcao.closest(".qf-pane").dataset.key;
     resp[chave]=opcao.dataset.val;
     resp[chave+"Tx"]=opcao.dataset.label;
+    medir("quiz_p"+(atual+1),{pergunta:chave,resposta:opcao.dataset.val});
     const prox=atual+1;
     if(prox===total){ montarResultado(); mostrar(prox); acenderLinha(); }
-    else mostrar(prox);
+    else { guardarParcial(); mostrar(prox); }
   });
 
   voltar.addEventListener("click",()=>{
@@ -406,26 +489,57 @@ const aplicarPerfil=(p)=>{
     if(!inicio) return;
     resp.hoje=inicio.dataset.val;
     resp.hojeTx=inicio.dataset.label;
+    medir("quiz_p1",{pergunta:"hoje",resposta:inicio.dataset.val});
     /* marca a mesma opcao no painel de dentro, para quem voltar na
        pergunta 1 encontrar coerencia */
     const espelho=painels[0].querySelector('[data-val="'+inicio.dataset.val+'"]');
     if(espelho) espelho.classList.add("is-picked");
     mostrar(1);
+    guardarParcial();
     abrir();
   });
 
-  /* retomada: quem ja respondeu numa visita anterior encontra a pagina
-     do jeito que deixou, com um atalho para o plano recomendado */
-  const salvo=Perfil.ler();
+  /* ---- a barra do topo, usada pelos dois tipos de retomada ---- */
+  const barra=document.getElementById("resume");
+  const abrirBarra=(texto,rotulo,acao)=>{
+    if(!barra) return;
+    document.getElementById("rzTx").innerHTML=texto;
+    const ir=document.getElementById("rzGo");
+    ir.textContent=rotulo;
+    ir.addEventListener("click",()=>{ barra.classList.remove("on"); acao(); });
+    document.getElementById("rzX").addEventListener("click",()=>barra.classList.remove("on"));
+    barra.hidden=false;
+    requestAnimationFrame(()=>barra.classList.add("on"));
+  };
+
+  const salvo=Perfil.ler(), meio=Parcial.ler();
+
   if(salvo&&PERFIS[salvo.chave]){
+    /* ja terminou numa visita anterior: pagina personalizada e atalho */
     aplicarPerfil(salvo);
-    const barra=document.getElementById("resume");
-    if(barra){
-      document.getElementById("rzPerfil").textContent=PERFIS[salvo.chave].chip;
-      barra.hidden=false;
-      requestAnimationFrame(()=>barra.classList.add("on"));
-      document.getElementById("rzGo").addEventListener("click",()=>{ irPara("planos"); barra.classList.remove("on"); });
-      document.getElementById("rzX").addEventListener("click",()=>barra.classList.remove("on"));
+    abrirBarra("Você parou em <b></b>","Ver meu plano",()=>irPara("planos"));
+    document.querySelector("#rzTx b").textContent=PERFIS[salvo.chave].chip;
+
+  }else if(meio&&meio.resp){
+    /* comecou e nao terminou: volta de onde parou */
+    const chaves=painels.filter(p=>p.dataset.key).map(p=>p.dataset.key),
+          faltam=chaves.filter(k=>!meio.resp[k]).length;
+    if(faltam>0&&faltam<total){
+      abrirBarra(
+        faltam===1 ? "Falta <b>1 pergunta</b> pro seu plano"
+                   : "Faltam <b>"+faltam+" perguntas</b> pro seu plano",
+        "Continuar",
+        ()=>{
+          resp=Object.assign({},meio.resp);
+          /* marca a resposta da pergunta 1 no painel de dentro. Comparo o
+             valor em vez de montar seletor com texto vindo do storage. */
+          [...painels[0].querySelectorAll("[data-val]")].forEach(b=>{
+            if(b.dataset.val===resp.hoje) b.classList.add("is-picked");
+          });
+          medir("quiz_retomado",{faltavam:faltam});
+          mostrar(Math.max(1,Math.min(meio.passo|0,total-1)));
+          abrir();
+        });
     }
   }
 
@@ -597,9 +711,8 @@ const aplicarPerfil=(p)=>{
 /* origem do lead
    Cada botao verde da pagina manda uma mensagem diferente, entao da para
    saber de que secao veio o contato so lendo a conversa no WhatsApp.
-   Este bloco avisa tambem qualquer ferramenta de analytics que estiver
-   instalada (Cloudflare Zaraz, Google Analytics ou Meta Pixel). Sem
-   ferramenta nenhuma instalada ele nao faz nada e nao quebra nada. */
+   Aqui a mesma informacao vai para a medicao, fechando o funil:
+   quiz_p1 ... quiz_p4 -> quiz_resultado -> whatsapp. */
 document.addEventListener("click",(e)=>{
   const link=e.target.closest(".wa-link");
   if(!link) return;
@@ -607,11 +720,7 @@ document.addEventListener("click",(e)=>{
   const origem=link.classList.contains("fab")?"fab":
                link.closest(".qzfull")?"diagnostico":
                (secao&&(secao.id||secao.tagName.toLowerCase()))||"pagina";
-  try{
-    if(window.zaraz&&window.zaraz.track) window.zaraz.track("whatsapp",{origem:origem});
-    if(window.gtag) window.gtag("event","whatsapp",{origem:origem});
-    if(window.fbq) window.fbq("track","Contact",{origem:origem});
-  }catch(err){}
+  medir("whatsapp",{origem:origem});
 },{passive:true});
 
 /* FAB */

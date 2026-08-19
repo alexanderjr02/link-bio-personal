@@ -2,33 +2,65 @@ PEDRO AUGUSTO | PERSONAL TRAINER
 Pagina de links com funil de diagnostico
 
 ===============================
-LEIA ISTO ANTES DE PUBLICAR
+O QUE ESTA ESPERANDO O PEDRO
 ===============================
-Tres coisas estao com conteudo DE EXEMPLO. Precisam ser confirmadas com
-o Pedro, ou apagadas, antes de o site ir pro ar. Nenhuma delas quebra a
-pagina se for removida.
+A pagina tinha quatro conteudos inventados no ar. Todos sairam. Nenhum
+foi apagado de verdade: estao comentados ou neutralizados, esperando o
+Pedro confirmar. Enquanto isso a pagina nao promete nada que ele nao
+tenha dito.
 
-1) PRECOS DOS PLANOS
-   Onde: index.html, secao PLANOS, dentro de <div class="price">.
-   Hoje esta R$ 149 (Essencial) e R$ 249 (Premium). Sao numeros de
-   rascunho, nao os precos reais. Troque pelos valores do Pedro.
-   Para nao mostrar preco, troque o numero por "Sob consulta" e apague
-   a linha <em>/mes</em> ao lado.
+1) PRECOS  ->  hoje aparece "Sob consulta"
+   Onde: index.html, secao PLANOS, <div class="price">.
+   Estavam R$ 149 e R$ 249, que eram rascunho. Quando o Pedro passar os
+   valores, troque por <b>R$ 000</b><em>/mês</em>. Tem comentario no
+   lugar exato.
 
-2) DADOS DAS TRANSFORMACOES
-   Onde: index.html, secao TRANSFORMACOES, atributo data-meta.
-   Hoje esta "8 meses|Online|4x por semana" e parecidos, tambem de
-   exemplo. Troque pelos dados reais de cada aluno. Se voce nao souber
-   os dados de um card, APAGUE o data-meta inteiro daquele card: ele
-   volta a aparecer sem tarja.
+2) DADOS DAS TRANSFORMACOES  ->  removidos
+   As tarjas diziam "8 meses|Online|4x por semana" e parecidas, tudo
+   inventado, coladas em fotos de ALUNOS REAIS. Esse era o mais grave
+   dos quatro. Para repor, com dado verdadeiro, acrescente ao card:
+   data-meta="tempo|formato|frequencia"
 
-3) A GARANTIA DA PRIMEIRA SEMANA
-   Onde: index.html, secao PLANOS, bloco <div class="guard">.
-   E uma promessa em nome do Pedro. Se ele nao topar, apague o bloco.
+3) GARANTIA DA PRIMEIRA SEMANA  ->  comentada
+   Onde: index.html, secao PLANOS, procure por "GARANTIA FORA DO AR".
+   E uma promessa em nome do Pedro que ele nunca fez. Se ele topar,
+   apague as duas linhas de comentario e ela volta.
 
-E uma quarta, que nao e de codigo: o rodape oferece um guia dos 5 erros
-entregue por WhatsApp. O guia precisa existir de verdade. Se ainda nao
-existir, apague o bloco <div class="fallback">.
+4) GUIA DOS 5 ERROS  ->  comentado
+   Onde: index.html, no fechamento, procure por "GUIA DOS 5 ERROS".
+   Mandava a pessoa pedir no WhatsApp um material que nao existe: quem
+   pedisse ficaria sem resposta. Quando o guia existir, apague as duas
+   linhas de comentario.
+
+Falta tambem, e depende so de informacao dele:
+   - o numero do CREF, para o rodape
+   - a cidade ou academia onde ele atende presencial
+
+===============================
+COMO SABER SE O FUNIL FUNCIONA
+===============================
+A pagina avisa cada etapa do diagnostico para quem estiver ouvindo,
+mas NAO existe ferramenta ligada ainda. Enquanto nao ligar, ninguem
+sabe quantas pessoas comecam nem onde elas desistem.
+
+Para ligar de graca, sem instalar nada e sem aviso de cookies:
+  painel do Cloudflare -> dominio pedroaugustopersonal.com.br
+  -> secao Zaraz -> ativar
+
+A partir dai chegam estes eventos, nesta ordem:
+  quiz_p1, quiz_p2, quiz_p3, quiz_p4   uma por pergunta respondida
+  quiz_retomado                        voltou e continuou de onde parou
+  quiz_resultado                       chegou na tela final
+  whatsapp                             clicou num botao verde
+
+A conta que interessa: de cada 100 que respondem quiz_p1, quantas
+chegam em quiz_resultado, e quantas dessas clicam em whatsapp. O ponto
+onde o numero despenca e o que precisa ser consertado.
+
+AVISO SOBRE OS NUMEROS: com pouco trafego eles servem de indicacao, nao
+de prova. Separar 8% de 11% de conversao exige milhares de visitas. Com
+100 visitas por mes, trate como pista e confie mais no que o Pedro
+sentir na qualidade das conversas.
 
 ===============================
 O QUE TEM NESTA PASTA
@@ -129,10 +161,22 @@ IDEIA 2: O OBJETIVO NAO E PERGUNTADO, E DEDUZIDO
 As perguntas 1 e 2 sao "qual corpo parece com o seu hoje" e "qual voce
 quer ter". A distancia entre as duas respostas ja diz tudo:
 
-  acima do peso -> em forma      = emagrecimento
-  magro -> musculoso             = hipertrofia
-  medio -> em forma              = definicao
-  qualquer um -> bem musculoso   = palco
+  acima do peso -> em forma        = emagrecimento
+  acima do peso -> musculoso       = recomposicao
+  magro -> musculoso               = hipertrofia
+  medio -> em forma                = definicao
+  magro ou medio -> bem musculoso  = palco
+
+RECOMPOSICAO e um perfil a parte de proposito. Quem esta acima do peso
+e quer ficar musculoso nao quer so emagrecer: quer trocar gordura por
+musculo, que tem outra historia e outro prazo. Antes esses tres casos
+caiam todos em emagrecimento e um terco das pessoas recebia um
+diagnostico que nao era bem o delas.
+
+O PRIMEIRO MARCO DA LINHA DO TEMPO vem da pergunta 3, nao do perfil.
+Quem volta de lesao e quem nunca treinou nao podem ler a mesma frase
+sobre a primeira semana: e ali que a pessoa decide se aquilo e crivel
+pra ela. Os marcos 2 e 3 continuam vindo do perfil.
 
 A pessoa desenha o proprio antes e depois com dois toques, sem
 precisar ler uma linha de texto sobre dor. E o elemento mais forte da
@@ -152,7 +196,9 @@ O QUE ACONTECE DEPOIS QUE A PESSOA RESPONDE
      entra um selo verde "Pra voce" no plano que faz sentido, com uma
      frase explicando o motivo.
   c) O guia gratuito do rodape SOME. Quem acabou de responder esta
-     quente e nao precisa de uma saida mais facil.
+     quente e nao precisa de uma saida mais facil. (Sem efeito hoje,
+     porque o guia esta comentado ate existir de verdade. O codigo ja
+     esta pronto pra quando voltar.)
   d) O botao do topo deixa de apontar para a pergunta e passa a levar
      direto ao plano recomendado.
 
@@ -162,8 +208,21 @@ versao em que o titulo tambem trocava conforme o perfil, mas foi
 desfeita a pedido dele.
 
 SE A PESSOA VOLTAR DIAS DEPOIS
-Aparece uma barra no topo dizendo onde ela parou, com atalho pro plano.
-A pagina ja abre personalizada. O guia gratuito volta a aparecer.
+A mesma barra no topo atende dois casos diferentes:
+
+  TERMINOU numa visita anterior
+  "Voce parou em Perder gordura"  +  botao "Ver meu plano"
+  A pagina ja abre personalizada.
+
+  COMECOU E NAO TERMINOU
+  "Faltam 2 perguntas pro seu plano"  +  botao "Continuar"
+  Reabre o diagnostico exatamente na pergunta onde parou, sem refazer
+  o que ja respondeu. Vale por 7 dias; depois disso some, porque quem
+  volta um mes depois esta noutro momento.
+
+Esse segundo caso e o que recupera a pessoa mais interessada da pagina:
+quem parou na pergunta 3 ja tinha respondido duas coisas sobre o
+proprio corpo, e antes sumia sem deixar nada.
 
 A REGRA DE RECOMENDACAO DE PLANO (js/script.js, funcao "recomendar")
   respondeu presencial            -> Presencial

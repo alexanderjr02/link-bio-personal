@@ -32,9 +32,12 @@ tenha dito.
    pedisse ficaria sem resposta. Quando o guia existir, apague as duas
    linhas de comentario.
 
-Falta tambem, e depende so de informacao dele:
-   - o numero do CREF, para o rodape
-   - a cidade ou academia onde ele atende presencial
+Ja resolvidos, com informacao que ele passou:
+   - CREF 012500 G/DF, no rodape e na ficha do Google
+   - atende presencial no Gama e regiao, no DF. Aparece no rodape, no
+     card do plano Presencial e na descricao que o Google mostra.
+   CONFIRME COM ELE se "Gama e regiao" e a forma certa de dizer, ou se
+   ele prefere citar a academia onde atende.
 
 ===============================
 COMO SABER SE O FUNIL FUNCIONA

@@ -519,6 +519,10 @@ footer{padding:40px 0 130px;text-align:center}
 footer .flogo{width:118px;opacity:.9;margin:0 auto 14px;display:block}
 footer .fname{font-family:'Anton',sans-serif;letter-spacing:.05em;font-size:16px;text-transform:uppercase}
 footer .fsub{color:var(--muted-2);font-size:12px;margin-top:6px}
+/* registro profissional: sinal de confianca para quem sabe que ele existe */
+footer .fcref{display:inline-block;margin-top:10px;padding:5px 12px;border-radius:999px;
+  font-size:11px;font-weight:700;letter-spacing:.1em;color:var(--glow);
+  background:rgba(124,58,237,.12);border:1px solid rgba(167,139,250,.3)}
 footer .fsoc{margin-top:14px}
 footer .fsoc a{font-size:12.5px;color:var(--muted);text-decoration:none;
   border-bottom:1px solid rgba(158,152,179,.28);padding-bottom:2px;transition:color .2s,border-color .2s}

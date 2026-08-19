@@ -8,6 +8,31 @@ const waLink = (msg) => "https://wa.me/" + ZAP + "?text=" + encodeURIComponent(m
 document.getElementById("yr").textContent = new Date().getFullYear();
 const reduce = matchMedia("(prefers-reduced-motion:reduce)").matches;
 
+/* a palavra que troca sozinha no titulo do topo.
+   O "fit" diminui a fonte quando a palavra nao cabe na largura da tela,
+   senao "emagrecimento" estoura para fora em celular pequeno. */
+(function(){
+  const el=document.getElementById("rotWord");
+  if(!el) return;
+  const words=["hipertrofia","emagrecimento","estética","força","autoestima"];
+  const fit=()=>{
+    el.style.fontSize="";
+    const box=el.parentElement, max=box.clientWidth-4;
+    let fs=parseFloat(getComputedStyle(el).fontSize);
+    let guard=0;
+    while(el.scrollWidth>max && fs>20 && guard++<60){ fs-=1.5; el.style.fontSize=fs+"px"; }
+  };
+  fit();
+  window.addEventListener("resize",fit,{passive:true});
+  if(reduce) return;
+  let i=0;
+  setInterval(()=>{
+    el.style.opacity=0; el.style.transform="translateY(-12px)";
+    setTimeout(()=>{ i=(i+1)%words.length; el.textContent=words[i]; fit();
+      el.style.opacity=1; el.style.transform="translateY(0)"; },280);
+  },2300);
+})();
+
 /* scroll progress + hero parallax */
 const prog=document.getElementById("prog"), heroMedia=document.getElementById("heroMedia");
 const onScrollFx=()=>{
@@ -127,7 +152,6 @@ const SALTOS={
 const PERFIS={
   gordura:{
     chip:"Perder gordura",
-    hero:'Chega de recomeçar<br>toda <span class="grad">segunda</span>',
     custo:"Quantos verões você já passou esperando a segunda-feira certa?",
     linha:[
       ["Semana 1 a 3","Você para de comer no escuro. A balança quase não mexe, e isso é normal."],
@@ -137,7 +161,6 @@ const PERFIS={
   },
   massa:{
     chip:"Ganhar massa",
-    hero:'Treino não é esforço.<br>É <span class="grad">progressão</span>',
     custo:"Dois anos treinando no escuro rendem menos que oito meses com plano.",
     linha:[
       ["Semana 1 a 3","A carga sobe porque enfim existe uma regra pra ela subir."],
@@ -147,7 +170,6 @@ const PERFIS={
   },
   estetica:{
     chip:"Definição",
-    hero:'Não é treinar mais.<br>É treinar <span class="grad">certo</span>',
     custo:"Você já tem a base. Falta o acabamento, e ele não vem por acaso.",
     linha:[
       ["Semana 1 a 3","A gente separa o que entra em foco do que entra em manutenção."],
@@ -157,7 +179,6 @@ const PERFIS={
   },
   palco:{
     chip:"Rumo ao palco",
-    hero:'Do primeiro treino<br>ao <span class="grad">palco</span>',
     custo:"Palco tem data. Preparação sem calendário vira temporada perdida.",
     linha:[
       ["Semana 1 a 3","Definimos se o seu momento é de off-season ou de preparação."],
@@ -205,8 +226,8 @@ const aplicarPerfil=(p)=>{
   const d=PERFIS[p.chave];
   if(!d) return;
 
-  const topo=document.getElementById("heroTitle");
-  if(topo) topo.innerHTML=d.hero;
+  /* o titulo do topo NAO muda: a hero fica sempre com o texto fixo do
+     Pedro, com a palavra que troca sozinha. Foi decisao dele. */
 
   /* quem ja respondeu nao precisa refazer: o botao do topo deixa de
      apontar para a pergunta e passa a levar direto ao plano recomendado */

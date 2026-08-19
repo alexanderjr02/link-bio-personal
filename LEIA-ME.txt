@@ -148,14 +148,18 @@ O QUE ACONTECE DEPOIS QUE A PESSOA RESPONDE
   a) O resultado mostra as duas silhuetas lado a lado com o salto e o
      prazo entre elas, um veredito curto, uma linha do tempo de tres
      marcos e uma frase sobre o custo de continuar como esta.
-  b) O TITULO DO TOPO DA PAGINA MUDA conforme o perfil.
-  c) O PLANO EM DESTAQUE MUDA. O selo violeta "Mais escolhido" sai e
+  b) O PLANO EM DESTAQUE MUDA. O selo violeta "Mais escolhido" sai e
      entra um selo verde "Pra voce" no plano que faz sentido, com uma
      frase explicando o motivo.
-  d) O guia gratuito do rodape SOME. Quem acabou de responder esta
+  c) O guia gratuito do rodape SOME. Quem acabou de responder esta
      quente e nao precisa de uma saida mais facil.
-  e) O botao do topo deixa de apontar para a pergunta e passa a levar
+  d) O botao do topo deixa de apontar para a pergunta e passa a levar
      direto ao plano recomendado.
+
+O QUE NAO MUDA: o TITULO do topo. A hero fica sempre com o texto fixo
+do Pedro ("Especialista em" + a palavra que troca sozinha). Houve uma
+versao em que o titulo tambem trocava conforme o perfil, mas foi
+desfeita a pedido dele.
 
 SE A PESSOA VOLTAR DIAS DEPOIS
 Aparece uma barra no topo dizendo onde ela parou, com atalho pro plano.

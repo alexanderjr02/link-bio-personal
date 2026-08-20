@@ -40,7 +40,12 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--voi
    radial-gradient(70% 50% at 50% 108%,rgba(124,58,237,.35),transparent 70%)}
 .hero-top{position:absolute;top:0;left:0;right:0;z-index:2;display:flex;justify-content:center;padding:24px 20px;
   opacity:0;animation:rise .8s ease .15s forwards}
-.hero-top img{width:120px;height:auto;filter:drop-shadow(0 6px 18px rgba(0,0,0,.6))}
+/* Os PNGs das logos foram recortados: tinham uma linha quase branca de
+   1px nas bordas direita e inferior, invisivel em fundo claro e que no
+   site escuro virava um "L" em volta da marca. Como o recorte tirou a
+   sobra transparente em volta, a largura aqui caiu de 120 para 76 sem
+   que a marca mude de tamanho na tela. */
+.hero-top img{width:76px;height:auto;filter:drop-shadow(0 6px 18px rgba(0,0,0,.6))}
 .hero-content{position:relative;z-index:2;text-align:center;padding:0 20px}
 .hero-content .eyebrow{opacity:0;animation:rise .7s ease .35s forwards}
 /* selo do registro profissional, logo abaixo do chapeu da hero */
@@ -522,7 +527,9 @@ body.qz-open{overflow:hidden}
 
 /* ---------- FOOTER ---------- */
 footer{padding:40px 0 130px;text-align:center}
-footer .flogo{width:118px;opacity:.9;margin:0 auto 14px;display:block}
+/* aumentada a pedido do Pedro: 118px valiam 75px de marca, porque o
+   arquivo antigo tinha sobra em volta. Agora sao 118px de marca mesmo. */
+footer .flogo{width:118px;opacity:.95;margin:0 auto 16px;display:block}
 footer .fname{font-family:'Anton',sans-serif;letter-spacing:.05em;font-size:16px;text-transform:uppercase}
 footer .fsub{color:var(--muted-2);font-size:12px;margin-top:6px}
 /* registro profissional: sinal de confianca para quem sabe que ele existe */

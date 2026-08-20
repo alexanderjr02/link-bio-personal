@@ -9,11 +9,9 @@ foi apagado de verdade: estao comentados ou neutralizados, esperando o
 Pedro confirmar. Enquanto isso a pagina nao promete nada que ele nao
 tenha dito.
 
-1) PRECOS  ->  hoje aparece "Sob consulta"
-   Onde: index.html, secao PLANOS, <div class="price">.
-   Estavam R$ 149 e R$ 249, que eram rascunho. Quando o Pedro passar os
-   valores, troque por <b>R$ 000</b><em>/mês</em>. Tem comentario no
-   lugar exato.
+1) PRECOS  ->  JA ESTAO NO AR, valores do Pedro
+   Essencial R$ 450 e Premium R$ 600, os dois por TRIMESTRE.
+   Presencial fica em "Consultar valores", como ele pediu.
 
 2) DADOS DAS TRANSFORMACOES  ->  removidos
    As tarjas diziam "8 meses|Online|4x por semana" e parecidas, tudo
@@ -104,17 +102,20 @@ LEIA-ME.txt          Este arquivo.
 
 AO TROCAR O CSS OU O JS, MUDE O ?v= NO index.html
 No fim das duas linhas que carregam styles.css e script.js existe um
-?v=20260819a. O dominio esta com cache de 4 horas no navegador, entao
+?v=20260820a. O dominio esta com cache de 4 horas no navegador, entao
 sem trocar esse numero quem ja visitou continua vendo a versao velha.
 Mudou o numero, mudou o endereco, e o navegador baixa na hora.
 Pode ser qualquer coisa: a data do dia ja serve.
+
+O MESMO VALE PRA FOTOS E LOGOS, e ali e pior: o cache delas e de SETE
+dias. Por isso os enderecos das logos tambem terminam em ?v=. Trocou
+a imagem sem trocar o nome nem o ?v=, ninguem ve a nova.
 
 ===============================
 ONDE O SITE ESTA NO AR
 ===============================
 Endereco provisorio: https://pedro-augusto.pages.dev   FUNCIONANDO
-Endereco final:      https://pedroaugustopersonal.com.br
-                     AINDA NAO ABRE, falta 1 passo (veja abaixo)
+Endereco final:      https://pedroaugustopersonal.com.br   NO AR
 
 Hospedagem: Cloudflare Pages, projeto "pedro-augusto", plano gratuito.
 Dominio: registrado no registro.br, que continua sendo onde ele e pago
@@ -134,32 +135,14 @@ Se algo der errado, o Cloudflare guarda todas as versoes anteriores.
 No painel, em Workers & Pages, abra o projeto na aba Deployments,
 escolha a versao antiga e clique em Rollback.
 
-O QUE FALTA PARA O DOMINIO PROPRIO
-JA FEITO:
-  - dominio cadastrado no Cloudflare, zona ATIVA
-  - registro.br apontando para alexis.ns e nelly.ns.cloudflare.com,
-    ja propagado pelo mundo
-  - dominio e www adicionados ao projeto pedro-augusto
+O DOMINIO, QUE JA ESTA RESOLVIDO
+Ficou tudo pronto: zona ativa no Cloudflare, registro.br apontando
+para alexis.ns e nelly.ns.cloudflare.com, e os dois CNAME (@ e www)
+apontando para pedro-augusto.pages.dev com o proxy ligado.
 
-FALTA SO ISTO, e precisa ser feito no painel porque exige permissao de
-escrita em DNS, que a linha de comando nao tem:
-
-  painel do Cloudflare -> pedroaugustopersonal.com.br -> DNS
-  -> Add record, DUAS VEZES:
-
-    Type: CNAME   Name: @      Target: pedro-augusto.pages.dev   Proxy: LIGADO
-    Type: CNAME   Name: www    Target: pedro-augusto.pages.dev   Proxy: LIGADO
-
-O Proxy (nuvem laranja) tem que ficar LIGADO nos dois. E ele que permite
-um CNAME na raiz do dominio, o que o DNS normalmente nao aceita.
-
-Depois disso o certificado de seguranca sai sozinho, em ate 15 minutos,
-e o site passa a abrir no dominio.
-
-POR QUE ISSO NAO ACONTECEU SOZINHO: o dominio foi ligado ao projeto
-enquanto a zona ainda estava pendente, esperando a propagacao. Quando a
-zona ativou, o Cloudflare nao voltou para concluir, e os dois dominios
-ficaram parados em "pending" sem nunca criar o registro.
+Se um dia precisar refazer, o detalhe que trava e o proxy: a nuvem
+laranja tem que ficar LIGADA nos dois registros. E ela que permite um
+CNAME na raiz do dominio, o que o DNS normalmente nao aceita.
 
 ===============================
 CUIDADO AO EDITAR OS ARQUIVOS
